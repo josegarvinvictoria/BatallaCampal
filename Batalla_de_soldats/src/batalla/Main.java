@@ -10,15 +10,15 @@ public class Main {
     GImage imatgeSoldat1 = new GImage("/home/b4tm4n/Imágenes/soldier1.png");
     GImage imatgeSoldat2 = new GImage("/home/b4tm4n/Imágenes/soldier2.png");
 
-    Exercit Exercit1 = new Exercit(CrearExercit(imatgeSoldat1));
-    Exercit Exercit2 = new Exercit(CrearExercit(imatgeSoldat2));
+    Exercit Exercit1 = new Exercit(CrearExercit("/home/b4tm4n/Imágenes/soldier1.png"));
+    Exercit Exercit2 = new Exercit(CrearExercit("/home/b4tm4n/Imágenes/soldier2.png"));
 
 
 
-    public ArrayList<Soldat> CrearExercit(GImage img){
+    public ArrayList<Soldat> CrearExercit(String rutaImatge){
         ArrayList<Soldat> exercit = new ArrayList<>();
         for(int i = 0; i<15;i++){
-            exercit.add(new Soldat(img, 0, 0));
+            exercit.add(new Soldat(new GImage(rutaImatge), 0, 0));
         }
         return exercit;
     }
