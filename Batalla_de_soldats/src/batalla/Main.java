@@ -3,29 +3,38 @@ package batalla;
 import java.util.ArrayList;
 
 import acm.graphics.GImage;
+import acm.program.GraphicsProgram;
 
-public class Main {
-
-    //Incialitzem les imatges dels soldats
-    GImage imatgeSoldat1 = new GImage("/home/b4tm4n/Imágenes/soldier1.png");
-    GImage imatgeSoldat2 = new GImage("/home/b4tm4n/Imágenes/soldier2.png");
-
-    Exercit Exercit1 = new Exercit(CrearExercit("/home/b4tm4n/Imágenes/soldier1.png"));
-    Exercit Exercit2 = new Exercit(CrearExercit("/home/b4tm4n/Imágenes/soldier2.png"));
+public class Main extends GraphicsProgram{
 
 
-
-    public ArrayList<Soldat> CrearExercit(String rutaImatge){
-        ArrayList<Soldat> exercit = new ArrayList<>();
-        for(int i = 0; i<15;i++){
-            exercit.add(new Soldat(new GImage(rutaImatge), 0, 0));
-        }
-        return exercit;
-    }
-
+    /**
+     * Creem els exercits.
+     */
+    Exercit Exercit1 = new Exercit(CrearExercit("soldier1.png"));
+    Exercit Exercit2 = new Exercit(CrearExercit("soldier2.png"));
 
 
     public void run(){
+        this.setSize(800, 400);
+        Exercit1.Posiciona(0 , 0);
+        Exercit2.Posiciona(800, 0);
 
+
+    }
+
+    /**
+     * Mètode per crear exercits.
+     * @param rutaImatge --> Ruta imatge
+     * @return --> Retorna un arrayList de Soldats.
+     */
+    public ArrayList<Soldat> CrearExercit(String rutaImatge){
+        ArrayList<Soldat> exercit = new ArrayList<>();
+        for(int i = 0; i<15;i++){
+            Soldat soldat = new Soldat(new GImage(rutaImatge));
+            exercit.add(soldat);
+            add(soldat.getImatge());
+        }
+        return exercit;
     }
 }

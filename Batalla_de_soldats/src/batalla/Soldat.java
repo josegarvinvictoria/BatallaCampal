@@ -5,17 +5,21 @@ import acm.graphics.GImage;
 public class Soldat {
 
     GImage imatge;
-    int posx;
-    int posy;
-    String direccio;
 
     /**
      * Constructor soldat.
      */
-    public Soldat(GImage imatgej, int posxj, int posyj){
+    public Soldat(GImage imatgej){
         this.imatge = imatgej;
-        this.posx = posxj;
-        this.posy = posyj;
+
+    }
+
+    public GImage getImatge() {
+        return imatge;
+    }
+
+    public void setImatge(GImage imatge) {
+        this.imatge = imatge;
     }
 
 
