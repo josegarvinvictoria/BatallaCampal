@@ -18,23 +18,64 @@ public class Main extends GraphicsProgram{
     /**
      * Creem els exercits.
      */
-    Exercit Exercit1 = new Exercit(CrearExercit("soldier1.png"));
-    Exercit Exercit2 = new Exercit(CrearExercit("soldier2.png"));
+    Exercit Exercit1 = new Exercit(CrearExercit("soldier1.png"), -1);
+    Exercit Exercit2 = new Exercit(CrearExercit("soldier2.png"), 1);
 
 
     public void run(){
-        this.setSize(campx, campy);
-        Exercit1.Posiciona(0, 0);
-        Exercit2.Posiciona(800, 0);
-        Exercit1.ObtenirFiles(Exercit1.getSoldats());
-        System.out.println(Exercit1.ObtenirFiles(Exercit1.getSoldats()));
-        Exercit1.Formar();
-        Exercit2.Formar();
+        /**
+         * Creo l'objecte "camp".
+         */
+        CampBatalla camp = new CampBatalla(campx, campy);
+
+        /**
+         * Assignem un tamany a la finestra.
+         */
+        this.setSize(camp.getCampx(), camp.getCampy());
+
+        /**
+         * Afegim els exercits al camp.
+         */
+        camp.AfegirExercit(Exercit1);
+        camp.AfegirExercit(Exercit2);
+
+        /**
+         * Posicionem els exercits que hi ha al camp de batalla.
+         */
+        for(int i = 0; i<camp.getExercits().size();i++){
+            if(camp.getExercits().get(i).ubicacio == -1){
+                camp.getExercits().get(i).Posiciona(0, 0);
+            }else{
+                camp.getExercits().get(i).Posiciona(camp.getCampx(), 0);
+            }
+        }
+
+        /**
+         * Obtenim el numero de files i l'assignem a "CampBatalla".
+         */
+        camp.setNum_files(camp.ObtenirFiles());
+
+        //Exercit1.Posiciona(0, 0);
+        //Exercit2.Posiciona(campx, 0);
+        //camp.ObtenirFiles(Exercit1.getSoldats());
+        //System.out.println(camp.ObtenirFiles(Exercit1.getSoldats()));
+        Exercit1.Formar(camp);
+        Exercit2.Formar(camp);
+
+        boolean hanArribat = Exercit2.hanArribatAlFinal() && Exercit1.hanArribatAlFinal();
+
+        while(!hanArribat){
+        Exercit1.MoureExercit(this);
+        Exercit2.MoureExercit(this);
+        hanArribat = Exercit2.hanArribatAlFinal() && Exercit1.hanArribatAlFinal();
+
+        }
+        Exercit1.Formar(camp);
+        Exercit2.Formar(camp);
+        //Exercit2.Atacar();
 
     }
-    /**
-     * Posicionament Exercit2.
-     */
+
 
 
 
@@ -65,24 +106,7 @@ public class Main extends GraphicsProgram{
 
 
 
-    public int getCampx() {
-        return campx;
-    }
 
-
-    public void setCampx(int campx) {
-        this.campx = campx;
-    }
-
-
-    public int getCampy() {
-        return campy;
-    }
-
-
-    public void setCampy(int campy) {
-        this.campy = campy;
-    }
 
 
 }
