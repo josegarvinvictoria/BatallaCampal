@@ -1,9 +1,12 @@
 package batalla;
 
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
 import acm.graphics.GImage;
+import acm.graphics.GLabel;
+import acm.graphics.GRectangle;
 import acm.program.GraphicsProgram;
 
 public class Main extends GraphicsProgram{
@@ -21,12 +24,14 @@ public class Main extends GraphicsProgram{
     Exercit Exercit1 = new Exercit(CrearExercit("soldier1.png"), -1);
     Exercit Exercit2 = new Exercit(CrearExercit("soldier2.png"), 1);
 
+    CampBatalla camp = new CampBatalla(campx, campy);
 
     public void run(){
+
         /**
          * Creo l'objecte "camp".
          */
-        CampBatalla camp = new CampBatalla(campx, campy);
+        //CampBatalla camp = new CampBatalla(campx, campy);
 
         /**
          * Assignem un tamany a la finestra.
@@ -55,32 +60,73 @@ public class Main extends GraphicsProgram{
          */
         camp.setNum_files(camp.ObtenirFiles());
 
-        //Exercit1.Posiciona(0, 0);
-        //Exercit2.Posiciona(campx, 0);
-        //camp.ObtenirFiles(Exercit1.getSoldats());
-        //System.out.println(camp.ObtenirFiles(Exercit1.getSoldats()));
-        Exercit1.Formar(camp);
-        Exercit2.Formar(camp);
+        /**
+         * Fem que els exercits formin.
+         */
+        FormarExercits(camp);
 
-        boolean hanArribat = Exercit2.hanArribatAlFinal() && Exercit1.hanArribatAlFinal();
+
+        /**
+         * Iniciem la batalla!
+         */
+
+        /**
+         * Control inici
+         */
+        ControlInici();
+
+        while(!camp.GuanyadorTrobat()){
+            IniciarBatalla();
+        }
+
+    }
+
+
+    public void IniciarBatalla(){
+
+        boolean hanArribat = camp.getExercits().get(0).hanArribatAlFinal() && camp.getExercits().get(1).hanArribatAlFinal();
 
         while(!hanArribat){
-        Exercit1.MoureExercit(this);
-        Exercit2.MoureExercit(this);
-        hanArribat = Exercit2.hanArribatAlFinal() && Exercit1.hanArribatAlFinal();
+
+             for(int i = 0; i<camp.getExercits().size();i++){
+                 Exercit exercit = camp.getExercits().get(i);
+                 if(exercit.getSoldats().size() != 0){
+                     exercit.MoureExercit(this);
+                 }
+
+                 exercit.comprovaMorts(camp.getExercits().get(CercaExercitOponent(i)).getSoldats());
+             }
+
+        hanArribat = camp.getExercits().get(0).hanArribatAlFinal() && camp.getExercits().get(1).hanArribatAlFinal();
+
 
         }
-        Exercit1.Formar(camp);
-        Exercit2.Formar(camp);
-        //Exercit2.Atacar();
 
+        if(!camp.GuanyadorTrobat()){
+        ReinicialitzarExercits();
+        FormarExercits(camp);
+        }
     }
 
 
 
 
 
+    public int CercaExercitOponent(int exercitActual){
+        if(exercitActual == 0){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 
+
+    public void FormarExercits(CampBatalla camp){
+         for(int i = 0; i<camp.getExercits().size();i++){
+             Exercit exercit = camp.getExercits().get(i);
+             exercit.Formar(camp);
+         }
+    }
 
 
     /**
@@ -99,6 +145,34 @@ public class Main extends GraphicsProgram{
         }
         return exercit;
     }
+
+    public void ReinicialitzarExercits(){
+        for(int i = 0; i<camp.getExercits().size();i++){
+            //Canvi d'ubicació
+            camp.getExercits().get(i).canviaUbicacio(camp.getExercits().get(i).getUbicacio());
+            //Canvi de haArribat a false.
+            camp.getExercits().get(i).ReinicialitzaExercit();
+
+        }
+    }
+
+
+    public void ControlInici(){
+        GLabel glabel = new GLabel("Click per començar la batalla!");
+        glabel.setLocation(campx/2 - (glabel.getWidth() /2), campy/2);
+        glabel.setFont(new Font("Liberation Serif", Font.ITALIC, 15));
+        add(glabel);
+        waitForClick();
+        remove(glabel);
+
+    }
+
+
+
+
+
+
+
 
 
 

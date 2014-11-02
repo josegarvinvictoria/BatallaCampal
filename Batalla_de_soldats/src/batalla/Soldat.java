@@ -14,6 +14,10 @@ public class Soldat {
      */
     public Soldat(GImage imatgej){
         this.imatge = imatgej;
+    }
+
+
+    public Soldat(){
 
     }
 
@@ -43,16 +47,14 @@ public class Soldat {
         double xActual = this.getImatge().getX();
         if(ubicacio == -1){
             this.getImatge().move(5, 0);
+            this.getImatge().pause(5);
             //soldats.get(indexRandom).getImatge().pause(100);
 
             if(xActual >= (camp.getWidth() - (this.getImatge().getWidth() ))){
                 this.setHaArribat(true);
             }
 
-            if(xActual >= camp.getWidth()){
 
-                this.setHaArribat(true);
-            }
         }else{
             this.getImatge().move(-5, 0);
             this.getImatge().pause(5);
@@ -67,9 +69,22 @@ public class Soldat {
 
     }
 
+    public void ReinicialitzaSoldat(){
+        if(this.haArribat == true){
+            this.haArribat = false;
+        }else{
+            this.haArribat = true;
+        }
+    }
+
+    public boolean SoldatsToquen(Soldat oponent){
+        return this.getImatge().getBounds().intersects(oponent.getImatge().getBounds());
+    }
 
 
-
+    public void MatarSoldat(){
+        this.imatge = null;
+    }
 
 
 }

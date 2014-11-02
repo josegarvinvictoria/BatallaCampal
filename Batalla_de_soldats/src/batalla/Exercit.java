@@ -4,6 +4,8 @@ package batalla;
 import java.util.List;
 import java.util.Random;
 
+import acm.graphics.GImage;
+
 
 public class Exercit {
 
@@ -53,17 +55,20 @@ public class Exercit {
      * @param camp --> Camp de batalla on s'ha de formar l'exercit.
      */
     public void Formar(CampBatalla camp) {
-        ;
+
         int num_Files = camp.ObtenirFiles();
         double alcadaSoldat = soldats.get(0).getImatge().getHeight();
         double ampladaSoldat = soldats.get(0).getImatge().getHeight();
         int indexFila = 0;
 
         double xActual = soldats.get(0).getImatge().getX();
-        double yActual = soldats.get(0).getImatge().getY();
+        double yActual = 0;
 
         for (int s = 0; s < soldats.size(); s++) {
             if (indexFila <= num_Files) {
+
+
+
                 soldats.get(s).getImatge().setLocation(xActual, yActual);
                 yActual += alcadaSoldat;
                 indexFila++;
@@ -95,17 +100,19 @@ public class Exercit {
      * @param camp --> Camp on s'han de moure el soldats.
      */
     public void MoureExercit(Main camp) {
+
+
         Random r = new Random();
-        int indexRandom = r.nextInt(soldats.size());
+
+            int indexRandom = r.nextInt(soldats.size());
+
+
 
 
         if(!soldats.get(indexRandom).isHaArribat()){
-            System.out.println(camp.getWidth() - soldats.get(indexRandom).getImatge().getWidth());
             soldats.get(indexRandom).Mou(ubicacio, camp);
                 }
-        if(hanArribatAlFinal()){
-            canviaUbicacio();
-        }
+
 
     }
 
@@ -123,7 +130,7 @@ public class Exercit {
         }
 
         if(cont == soldats.size()){
-            canviaUbicacio();
+
             return true;
         }
 
@@ -149,14 +156,58 @@ public class Exercit {
     }
 
 
+    public int getUbicacio() {
+        return ubicacio;
+    }
+
+    public void setUbicacio(int ubicacio) {
+        this.ubicacio = ubicacio;
+    }
+
     /**
      * Metode per canviar l'ubicacio de un exercit quan arriba al seu desti.
      */
-    public void canviaUbicacio(){
-        if(ubicacio == 1){
-            ubicacio = -1;
+    public void canviaUbicacio(int ubicacioActual){
+        if(ubicacioActual == 1){
+            this.ubicacio = -1;
         }else{
-            ubicacio = 1;
+            this.ubicacio = 1;
+        }
+    }
+
+    /**
+     * Comprova morts.
+     */
+    public void comprovaMorts(List<Soldat> atacats){
+        int tamanyExercit = this.soldats.size();
+
+        //Es recorren els exercits per cercar els morts.
+        for(int i = atacats.size()-1; i>=0;i--){
+
+            for(int j = tamanyExercit-1; j>=0; j--){
+
+                //Si dos soldats d'exercits diferents toquen, i son de dal mateixa mila ha de morir.
+                if(atacats.get(i).SoldatsToquen(this.soldats.get(j)) ){
+
+                    if(atacats.get(i).getImatge().getY() == this.soldats.get(j).getImatge().getY()){
+                    GImage imatge = atacats.get(i).getImatge();
+                    imatge.getParent().remove(imatge);
+                    atacats.remove(i);
+                    //tamanyExercit--;
+                    }
+                    break;
+                    //this.soldats.remove(j);
+
+
+                }
+            }
+
+        }
+    }
+
+    public void ReinicialitzaExercit(){
+        for(int i = 0; i<soldats.size();i++){
+            soldats.get(i).ReinicialitzaSoldat();
         }
     }
 

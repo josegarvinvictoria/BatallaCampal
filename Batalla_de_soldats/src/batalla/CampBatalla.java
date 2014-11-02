@@ -109,4 +109,19 @@ public class CampBatalla {
     }
 
 
+    public boolean GuanyadorTrobat(){
+        if(exercits.get(0).getSoldats().size() == 0 || exercits.get(1).getSoldats().size() == 0){
+            try {
+                Thread.sleep (3000);
+                System.exit(0);
+                } catch (Exception e) {
+                // Mensaje en caso de que falle
+                }
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
 }
