@@ -110,7 +110,8 @@ public class Exercit {
 
 
         if(!soldats.get(indexRandom).isHaArribat()){
-            soldats.get(indexRandom).Mou(ubicacio, camp);
+            soldats.get(indexRandom).mouSoldat(ubicacio, camp);
+
                 }
 
 
@@ -187,7 +188,7 @@ public class Exercit {
             for(int j = tamanyExercit-1; j>=0; j--){
 
                 //Si dos soldats d'exercits diferents toquen, i son de dal mateixa mila ha de morir.
-                if(atacats.get(i).SoldatsToquen(this.soldats.get(j)) ){
+                if(atacats.get(i).soldatsToquen(this.soldats.get(j)) ){
 
                     if(atacats.get(i).getImatge().getY() == this.soldats.get(j).getImatge().getY()){
                     GImage imatge = atacats.get(i).getImatge();
@@ -207,7 +208,7 @@ public class Exercit {
 
     public void ReinicialitzaExercit(){
         for(int i = 0; i<soldats.size();i++){
-            soldats.get(i).ReinicialitzaSoldat();
+            soldats.get(i).reinicialitzaSoldat();
         }
     }
 

@@ -2,36 +2,70 @@ package batalla;
 
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.List;
 
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
-import acm.graphics.GRectangle;
 import acm.program.GraphicsProgram;
 
-public class Main extends GraphicsProgram{
+/**
+ * Classe principal del programa "Batalla Campal".
+ *
+ * @author Jose Garvin Victoria.
+ *
+ */
+public class Main extends GraphicsProgram {
 
     /**
-     * Dimensions del camp de batalla.
+     * Tamany de la font que s'utilitza en el metode del controlInici().
      */
-    int campx = 800;
-    int campy = 400;
+    private static final int T_FONT = 15;
+
+    /**
+     * Número de soldats per exercit.
+     */
+    private static final int SOLDATS_PER_EXERCIT = 15;
+
+    /**
+     * Enter que indica els milisegons de pause entre el moviment dels exercits.
+     */
+    private static final int VALOR_PAUSE = 20;
+
+    /**
+     * SerialVersionUID.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Tamany X de la finestra.
+     */
+    private static final int TAMANY_X = 800;
+
+    /**
+     * Tamany Y de la finestra.
+     */
+    private static final int TAMANY_Y = 400;
+
+    /**
+     * Primer exercit de soldats.
+     */
+    private Exercit exercit1 = new Exercit(crearExercit("soldier1.png"), -1);
+
+    /**
+     * Segon exercit de soldats.
+     */
+    private Exercit exercit2 = new Exercit(crearExercit("soldier2.png"), 1);
+
+    /**
+     * Creacio de l'objecte CampBatalla.
+     */
+    private CampBatalla camp = new CampBatalla(TAMANY_X, TAMANY_Y);
+
 
 
     /**
-     * Creem els exercits.
+     * Mètode principal del programa.
      */
-    Exercit Exercit1 = new Exercit(CrearExercit("soldier1.png"), -1);
-    Exercit Exercit2 = new Exercit(CrearExercit("soldier2.png"), 1);
-
-    CampBatalla camp = new CampBatalla(campx, campy);
-
-    public void run(){
-
-        /**
-         * Creo l'objecte "camp".
-         */
-        //CampBatalla camp = new CampBatalla(campx, campy);
+    public final void run() {
 
         /**
          * Assignem un tamany a la finestra.
@@ -41,16 +75,16 @@ public class Main extends GraphicsProgram{
         /**
          * Afegim els exercits al camp.
          */
-        camp.AfegirExercit(Exercit1);
-        camp.AfegirExercit(Exercit2);
+        camp.AfegirExercit(exercit1);
+        camp.AfegirExercit(exercit2);
 
         /**
          * Posicionem els exercits que hi ha al camp de batalla.
          */
-        for(int i = 0; i<camp.getExercits().size();i++){
-            if(camp.getExercits().get(i).ubicacio == -1){
+        for (int i = 0; i < camp.getExercits().size(); i++) {
+            if (camp.getExercits().get(i).ubicacio == -1) {
                 camp.getExercits().get(i).Posiciona(0, 0);
-            }else{
+            } else {
                 camp.getExercits().get(i).Posiciona(camp.getCampx(), 0);
             }
         }
@@ -61,126 +95,137 @@ public class Main extends GraphicsProgram{
         camp.setNum_files(camp.ObtenirFiles());
 
         /**
-         * Fem que els exercits formin.
+         * Fem que els exercits es formin.
          */
-        FormarExercits(camp);
-
+        formarExercits(camp);
 
         /**
          * Iniciem la batalla!
          */
 
         /**
-         * Control inici
+         * Crida del mètode per controlar l'inici de la guerra.
          */
-        ControlInici();
+        controlInici();
 
-        while(!camp.GuanyadorTrobat()){
-            IniciarBatalla();
+        while (!camp.GuanyadorTrobat()) {
+            iniciarBatalla();
         }
 
     }
 
 
-    public void IniciarBatalla(){
 
-        boolean hanArribat = camp.getExercits().get(0).hanArribatAlFinal() && camp.getExercits().get(1).hanArribatAlFinal();
 
-        while(!hanArribat){
+    /**
+     * Mètode per iniciar la batalla de soldats.
+     */
+    final void iniciarBatalla() {
 
-             for(int i = 0; i<camp.getExercits().size();i++){
-                 Exercit exercit = camp.getExercits().get(i);
-                 if(exercit.getSoldats().size() != 0){
-                     exercit.MoureExercit(this);
-                 }
+        boolean hanArribat = camp.getExercits().get(0).hanArribatAlFinal()
+                && camp.getExercits().get(1).hanArribatAlFinal();
 
-                 exercit.comprovaMorts(camp.getExercits().get(CercaExercitOponent(i)).getSoldats());
-             }
+        while (!hanArribat) {
 
-        hanArribat = camp.getExercits().get(0).hanArribatAlFinal() && camp.getExercits().get(1).hanArribatAlFinal();
+            for (int i = 0; i < camp.getExercits().size(); i++) {
+                Exercit exercit = camp.getExercits().get(i);
+                if (exercit.getSoldats().size() != 0) {
 
+                    exercit.MoureExercit(this);
+
+                }
+
+                exercit.comprovaMorts(camp.getExercits()
+                        .get(cercaExercitOponent(i)).getSoldats());
+            }
+            this.pause(VALOR_PAUSE);
+
+            hanArribat = camp.getExercits().get(0).hanArribatAlFinal()
+                    && camp.getExercits().get(1).hanArribatAlFinal();
 
         }
 
-        if(!camp.GuanyadorTrobat()){
-        ReinicialitzarExercits();
-        FormarExercits(camp);
+        if (!camp.GuanyadorTrobat()) {
+            reinicialitzarExercits();
+            formarExercits(camp);
         }
     }
 
-
-
-
-
-    public int CercaExercitOponent(int exercitActual){
-        if(exercitActual == 0){
+    /**
+     * Mètode per determinar quin es l'exercit oponent d'un altre a partir de la
+     * posicio en l'array d'exercits.
+     *
+     * @param exercitActual
+     *            --> Exercit del qual volem saber el seu oponent.
+     * @return --> Retorna un enter que correpont a la pos de l'exercit oponent
+     *         a l'array.
+     */
+    final int cercaExercitOponent(final int exercitActual) {
+        if (exercitActual == 0) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
 
-
-    public void FormarExercits(CampBatalla camp){
-         for(int i = 0; i<camp.getExercits().size();i++){
-             Exercit exercit = camp.getExercits().get(i);
-             exercit.Formar(camp);
-         }
+    /**
+     * Mètode per formar els exercits al camp de batalla.
+     *
+     * @param campBatlla
+     *            --> Passem per paràmetre l'objecte "CampBatalla".
+     */
+    final void formarExercits(final CampBatalla campBatlla) {
+        for (int i = 0; i < campBatlla.getExercits().size(); i++) {
+            Exercit exercit = campBatlla.getExercits().get(i);
+            exercit.Formar(campBatlla);
+        }
     }
-
 
     /**
      * Mètode per crear exercits.
-     * @param rutaImatge --> Ruta imatge
+     *
+     * @param rutaImatge
+     *            --> Ruta a la imatge del soldat.
      * @return --> Retorna un arrayList de Soldats.
      */
-    public ArrayList<Soldat> CrearExercit(String rutaImatge){
+    final ArrayList<Soldat> crearExercit(final String rutaImatge) {
         ArrayList<Soldat> exercit = new ArrayList<>();
-        for(int i = 0; i<15;i++){
+        for (int i = 0; i < SOLDATS_PER_EXERCIT; i++) {
             Soldat soldat = new Soldat(new GImage(rutaImatge));
             exercit.add(soldat);
 
-            //Afegir soldats a la pisarra!
+            // Afegir soldats a la pisarra!
             add(soldat.getImatge());
         }
         return exercit;
     }
 
-    public void ReinicialitzarExercits(){
-        for(int i = 0; i<camp.getExercits().size();i++){
-            //Canvi d'ubicació
-            camp.getExercits().get(i).canviaUbicacio(camp.getExercits().get(i).getUbicacio());
-            //Canvi de haArribat a false.
+    /**
+     * Mètode per reinicialiar els exercits.
+     */
+    final void reinicialitzarExercits() {
+        for (int i = 0; i < camp.getExercits().size(); i++) {
+            // Canvi d'ubicació
+            camp.getExercits().get(i)
+                    .canviaUbicacio(camp.getExercits().get(i).getUbicacio());
+            // Canvi de haArribat a false.
             camp.getExercits().get(i).ReinicialitzaExercit();
 
         }
     }
 
-
-    public void ControlInici(){
+    /**
+     * Mètode que s'encarrega del control de l'inici del programa.
+     */
+    final void controlInici() {
         GLabel glabel = new GLabel("Click per començar la batalla!");
-        glabel.setLocation(campx/2 - (glabel.getWidth() /2), campy/2);
-        glabel.setFont(new Font("Liberation Serif", Font.ITALIC, 15));
+        glabel.setLocation(TAMANY_X / 2
+                - (glabel.getWidth() / 2), TAMANY_Y / 2);
+        glabel.setFont(new Font("Liberation Serif", Font.ITALIC, T_FONT));
         add(glabel);
         waitForClick();
         remove(glabel);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
