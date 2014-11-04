@@ -58,7 +58,7 @@ public class Main extends GraphicsProgram {
     /**
      * Creacio de l'objecte CampBatalla.
      */
-    private CampBatalla camp = new CampBatalla(TAMANY_X, TAMANY_Y);
+    private Campbatalla camp = new Campbatalla(TAMANY_X, TAMANY_Y);
 
 
 
@@ -75,8 +75,8 @@ public class Main extends GraphicsProgram {
         /**
          * Afegim els exercits al camp.
          */
-        camp.AfegirExercit(exercit1);
-        camp.AfegirExercit(exercit2);
+        camp.afegirExercit(exercit1);
+        camp.afegirExercit(exercit2);
 
         /**
          * Posicionem els exercits que hi ha al camp de batalla.
@@ -92,7 +92,7 @@ public class Main extends GraphicsProgram {
         /**
          * Obtenim el numero de files i l'assignem a "CampBatalla".
          */
-        camp.setNum_files(camp.ObtenirFiles());
+        camp.setNumfiles(camp.obtenirFiles());
 
         /**
          * Fem que els exercits es formin.
@@ -108,7 +108,7 @@ public class Main extends GraphicsProgram {
          */
         controlInici();
 
-        while (!camp.GuanyadorTrobat()) {
+        while (!camp.guanyadorTrobat()) {
             iniciarBatalla();
         }
 
@@ -145,7 +145,7 @@ public class Main extends GraphicsProgram {
 
         }
 
-        if (!camp.GuanyadorTrobat()) {
+        if (!camp.guanyadorTrobat()) {
             reinicialitzarExercits();
             formarExercits(camp);
         }
@@ -174,7 +174,7 @@ public class Main extends GraphicsProgram {
      * @param campBatlla
      *            --> Passem per paràmetre l'objecte "CampBatalla".
      */
-    final void formarExercits(final CampBatalla campBatlla) {
+    final void formarExercits(final Campbatalla campBatlla) {
         for (int i = 0; i < campBatlla.getExercits().size(); i++) {
             Exercit exercit = campBatlla.getExercits().get(i);
             exercit.Formar(campBatlla);

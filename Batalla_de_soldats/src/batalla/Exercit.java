@@ -54,9 +54,9 @@ public class Exercit {
      * Metode per formar (Amb setLocation!).
      * @param camp --> Camp de batalla on s'ha de formar l'exercit.
      */
-    public void Formar(CampBatalla camp) {
+    public void Formar(Campbatalla camp) {
 
-        int num_Files = camp.ObtenirFiles();
+        int num_Files = camp.obtenirFiles();
         double alcadaSoldat = soldats.get(0).getImatge().getHeight();
         double ampladaSoldat = soldats.get(0).getImatge().getHeight();
         int indexFila = 0;
