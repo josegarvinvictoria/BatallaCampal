@@ -83,9 +83,11 @@ public class Exercit {
      * @param campB
      *            --> Camp de batalla on s'ha de formar l'exercit.
      */
-    final void formar(final Campbatalla campB) {
 
-        int numFiles = campB.obtenirFiles();
+    public void Formar(Campbatalla camp) {
+
+        int numFiles = camp.obtenirFiles();
+
         double alcadaSoldat = soldats.get(0).getImatge().getHeight();
         double ampladaSoldat = soldats.get(0).getImatge().getHeight();
         int indexFila = 0;

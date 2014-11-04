@@ -53,12 +53,14 @@ public class Campbatalla {
         this.campy = y;
     }
 
+
     /**
      * Constructor per defecte per objectes de tipus "Campbatalla".
      */
     public Campbatalla(){
 
     }
+
 
 
 

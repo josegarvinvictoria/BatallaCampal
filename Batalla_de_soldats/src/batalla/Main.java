@@ -177,7 +177,7 @@ public class Main extends GraphicsProgram {
     final void formarExercits(final Campbatalla campBatlla) {
         for (int i = 0; i < campBatlla.getExercits().size(); i++) {
             Exercit exercit = campBatlla.getExercits().get(i);
-            exercit.formar(campBatlla);
+            exercit.Formar(campBatlla);
         }
     }
 
