@@ -82,10 +82,10 @@ public class Main extends GraphicsProgram {
          * Posicionem els exercits que hi ha al camp de batalla.
          */
         for (int i = 0; i < camp.getExercits().size(); i++) {
-            if (camp.getExercits().get(i).ubicacio == -1) {
-                camp.getExercits().get(i).Posiciona(0, 0);
+            if (camp.getExercits().get(i).getUbicacio() == -1) {
+                camp.getExercits().get(i).posiciona(0, 0);
             } else {
-                camp.getExercits().get(i).Posiciona(camp.getCampx(), 0);
+                camp.getExercits().get(i).posiciona(camp.getCampx(), 0);
             }
         }
 
@@ -131,7 +131,7 @@ public class Main extends GraphicsProgram {
                 Exercit exercit = camp.getExercits().get(i);
                 if (exercit.getSoldats().size() != 0) {
 
-                    exercit.MoureExercit(this);
+                    exercit.moureExercit(this);
 
                 }
 
@@ -177,7 +177,7 @@ public class Main extends GraphicsProgram {
     final void formarExercits(final Campbatalla campBatlla) {
         for (int i = 0; i < campBatlla.getExercits().size(); i++) {
             Exercit exercit = campBatlla.getExercits().get(i);
-            exercit.Formar(campBatlla);
+            exercit.formar(campBatlla);
         }
     }
 
@@ -209,7 +209,7 @@ public class Main extends GraphicsProgram {
             camp.getExercits().get(i)
                     .canviaUbicacio(camp.getExercits().get(i).getUbicacio());
             // Canvi de haArribat a false.
-            camp.getExercits().get(i).ReinicialitzaExercit();
+            camp.getExercits().get(i).reinicialitzaExercit();
 
         }
     }

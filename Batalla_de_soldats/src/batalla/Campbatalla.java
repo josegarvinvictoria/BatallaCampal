@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Classe per crear objectes de tipus "CampBatalla".
  *
- * @author b4tm4n
+ * @author Jose Garvin Victoria
  *
  */
 public class Campbatalla {
@@ -53,6 +53,12 @@ public class Campbatalla {
         this.campy = y;
     }
 
+    /**
+     * Constructor per defecte per objectes de tipus "Campbatalla".
+     */
+    public Campbatalla(){
+
+    }
 
 
 

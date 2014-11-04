@@ -1,26 +1,53 @@
 package batalla;
 
-
 import java.util.List;
 import java.util.Random;
 
 import acm.graphics.GImage;
 
-
+/**
+ * Classe per crear objectes de tipus "Exercit".
+ *
+ * @author Jose Garvin Victoria
+ *
+ */
 public class Exercit {
 
-    List<Soldat> soldats;
-    int ubicacio;
-    double velocitat;
+    /**
+     * ArrayList amb els soldats que componen un exercit.
+     */
+    private List<Soldat> soldats;
 
     /**
-     * Constructor exercit.
+     * Variable que emmagatzema la posicio de l'exercit. -1: L'exercit es
+     * col.loca a la dreta / 1: L'exerci es col.loca a la dreta.
      */
-    public Exercit(List<Soldat> exercit, int ubica) {
+    private int ubicacio;
+
+    /**
+     * Creació de l'objecte camp.
+     */
+    private Campbatalla camp = new Campbatalla();
+
+
+
+
+    /**
+     * Constructor d'objectes de tipues "Exercit".
+     *
+     * @param exercit
+     *            --> Llista de soldats de l'exercit.
+     * @param ubica
+     *            --> Ubicació de l'exercit. 1:Dreta / -1Esquerra.
+     */
+    public Exercit(final List<Soldat> exercit, final int ubica) {
         this.soldats = exercit;
         this.ubicacio = ubica;
-        this.velocitat = 5;
+
     }
+
+
+
 
     /**
      * Mètode per posicionar l'exercit (left,right).
@@ -30,7 +57,7 @@ public class Exercit {
      * @param pos2
      *            --> Posició de la y.
      */
-    public void Posiciona(int pos1, int pos2) {
+    final void posiciona(final int pos1, final int pos2) {
         if (pos1 == 0 && pos2 == 0) {
 
             for (int i = 0; i < this.soldats.size(); i++) {
@@ -38,7 +65,7 @@ public class Exercit {
             }
 
         }
-        if (pos1 == 800 && pos2 == 0) {
+        if (pos1 == camp.getCampx() && pos2 == 0) {
             for (int i = 0; i < this.soldats.size(); i++) {
                 soldats.get(i)
                         .getImatge()
@@ -52,11 +79,13 @@ public class Exercit {
 
     /**
      * Metode per formar (Amb setLocation!).
-     * @param camp --> Camp de batalla on s'ha de formar l'exercit.
+     *
+     * @param campB
+     *            --> Camp de batalla on s'ha de formar l'exercit.
      */
-    public void Formar(Campbatalla camp) {
+    final void formar(final Campbatalla campB) {
 
-        int num_Files = camp.obtenirFiles();
+        int numFiles = campB.obtenirFiles();
         double alcadaSoldat = soldats.get(0).getImatge().getHeight();
         double ampladaSoldat = soldats.get(0).getImatge().getHeight();
         int indexFila = 0;
@@ -65,14 +94,12 @@ public class Exercit {
         double yActual = 0;
 
         for (int s = 0; s < soldats.size(); s++) {
-            if (indexFila <= num_Files) {
-
-
+            if (indexFila <= numFiles) {
 
                 soldats.get(s).getImatge().setLocation(xActual, yActual);
                 yActual += alcadaSoldat;
                 indexFila++;
-                if (indexFila == num_Files) {
+                if (indexFila == numFiles) {
                     indexFila = 0;
                     yActual = 0;
 
@@ -94,43 +121,40 @@ public class Exercit {
 
     }
 
-
     /**
      * Metode per moure els soldats de un exercit.
-     * @param camp --> Camp on s'han de moure el soldats.
+     *
+     * @param campB
+     *            --> Camp on s'han de moure el soldats.
      */
-    public void MoureExercit(Main camp) {
-
+    final void moureExercit(final Main campB) {
 
         Random r = new Random();
 
-            int indexRandom = r.nextInt(soldats.size());
+        int indexRandom = r.nextInt(soldats.size());
 
+        if (!soldats.get(indexRandom).isHaArribat()) {
+            soldats.get(indexRandom).mouSoldat(ubicacio, campB);
 
-
-
-        if(!soldats.get(indexRandom).isHaArribat()){
-            soldats.get(indexRandom).mouSoldat(ubicacio, camp);
-
-                }
-
+        }
 
     }
 
     /**
      * Metode per comprovar si tots els soldats han arribat al final.
-     * @return --> True: Si tots el soldats han arribat / False: Si els
-     * soldats no han arribat.
+     *
+     * @return --> True: Si tots el soldats han arribat / False: Si els soldats
+     *         no han arribat.
      */
-    public boolean hanArribatAlFinal(){
+    final boolean hanArribatAlFinal() {
         int cont = 0;
-        for(int i = 0; i<soldats.size();i++){
-            if(soldats.get(i).isHaArribat()){
+        for (int i = 0; i < soldats.size(); i++) {
+            if (soldats.get(i).isHaArribat()) {
                 cont++;
             }
         }
 
-        if(cont == soldats.size()){
+        if (cont == soldats.size()) {
 
             return true;
         }
@@ -139,66 +163,47 @@ public class Exercit {
 
     }
 
-
     /**
-     * Metode per obtenir una llista de soldats.
-     * @return --> Retorna una llista de soldats.
+     * Mètode per canviar l'ubicacio de un exercit quan arriba al seu desti.
+     *
+     * @param ubicacioActual
+     *            --> Nova ubicació de l'exercit.
      */
-    public List<Soldat> getSoldats() {
-        return soldats;
-    }
-
-    /**
-     * Metode per assignar una llista de soldats.
-     * @param soldats --> Li passem una llista de soldats.
-     */
-    public void setSoldats(List<Soldat> soldats) {
-        this.soldats = soldats;
-    }
-
-
-    public int getUbicacio() {
-        return ubicacio;
-    }
-
-    public void setUbicacio(int ubicacio) {
-        this.ubicacio = ubicacio;
-    }
-
-    /**
-     * Metode per canviar l'ubicacio de un exercit quan arriba al seu desti.
-     */
-    public void canviaUbicacio(int ubicacioActual){
-        if(ubicacioActual == 1){
+    final void canviaUbicacio(final int ubicacioActual) {
+        if (ubicacioActual == 1) {
             this.ubicacio = -1;
-        }else{
+        } else {
             this.ubicacio = 1;
         }
     }
 
     /**
-     * Comprova morts.
+     * Mètode per comprovar els morts d'un exercit despres de rebre un atac.
+     *
+     * @param atacats
+     *            --> Exercit amb el soldats que són atacs.
      */
-    public void comprovaMorts(List<Soldat> atacats){
+    final void comprovaMorts(final List<Soldat> atacats) {
         int tamanyExercit = this.soldats.size();
 
-        //Es recorren els exercits per cercar els morts.
-        for(int i = atacats.size()-1; i>=0;i--){
+        // Es recorren els exercits per cercar els morts.
+        for (int i = atacats.size() - 1; i >= 0; i--) {
 
-            for(int j = tamanyExercit-1; j>=0; j--){
+            for (int j = tamanyExercit - 1; j >= 0; j--) {
 
-                //Si dos soldats d'exercits diferents toquen, i son de dal mateixa mila ha de morir.
-                if(atacats.get(i).soldatsToquen(this.soldats.get(j)) ){
+                // Si dos soldats d'exercits diferents toquen, i son de dal
+                // mateixa mila ha de morir.
+                if (atacats.get(i).soldatsToquen(this.soldats.get(j))) {
 
-                    if(atacats.get(i).getImatge().getY() == this.soldats.get(j).getImatge().getY()){
-                    GImage imatge = atacats.get(i).getImatge();
-                    imatge.getParent().remove(imatge);
-                    atacats.remove(i);
-                    //tamanyExercit--;
+                    if (atacats.get(i).getImatge().getY() == this.soldats
+                            .get(j).getImatge().getY()) {
+                        GImage imatge = atacats.get(i).getImatge();
+                        imatge.getParent().remove(imatge);
+                        atacats.remove(i);
+                        // tamanyExercit--;
                     }
                     break;
-                    //this.soldats.remove(j);
-
+                    // this.soldats.remove(j);
 
                 }
             }
@@ -206,10 +211,54 @@ public class Exercit {
         }
     }
 
-    public void ReinicialitzaExercit(){
-        for(int i = 0; i<soldats.size();i++){
+    /**
+     * Mètode per reinicialitzar cadascun dels soldats d'un exercit.
+     */
+    final void reinicialitzaExercit() {
+        for (int i = 0; i < soldats.size(); i++) {
             soldats.get(i).reinicialitzaSoldat();
         }
+    }
+
+
+
+
+    /**
+     * Mètode per obtenir una llista de soldats.
+     *
+     * @return --> Retorna una llista de soldats.
+     */
+    final List<Soldat> getSoldats() {
+        return soldats;
+    }
+
+    /**
+     * Mètode per assignar una llista de soldats.
+     *
+     * @param soldatsE
+     *            --> Li passem una llista de soldats.
+     */
+    final void setSoldats(final List<Soldat> soldatsE) {
+        this.soldats = soldatsE;
+    }
+
+    /**
+     * Mètode per obtenir l'ubicació d'un exercit.
+     *
+     * @return --> 1: Dreta / -1: Esquerra.
+     */
+    final int getUbicacio() {
+        return ubicacio;
+    }
+
+    /**
+     * Mètode per especificar l'ubicació d'un exercit.
+     *
+     * @param ubicacioE
+     *            --> 1: Dreta / -1: Esquerra.
+     */
+    final void setUbicacio(final int ubicacioE) {
+        this.ubicacio = ubicacioE;
     }
 
 }

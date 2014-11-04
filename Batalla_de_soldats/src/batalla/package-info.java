@@ -1,8 +1,8 @@
 /**
- * 
+ *
  */
 /**
- * @author b4tm4n
+ * @author Jose Garvin Victoria
  *
  */
 package batalla;
