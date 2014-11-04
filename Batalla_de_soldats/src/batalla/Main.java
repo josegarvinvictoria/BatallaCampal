@@ -23,7 +23,7 @@ public class Main extends GraphicsProgram {
     /**
      * Número de soldats per exercit.
      */
-    private static final int SOLDATS_PER_EXERCIT = 15;
+    private static final int SOLDATS_PER_EXERCIT = 20;
 
     /**
      * Enter que indica els milisegons de pause entre el moviment dels exercits.
