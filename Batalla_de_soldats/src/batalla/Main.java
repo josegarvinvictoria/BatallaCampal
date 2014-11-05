@@ -23,7 +23,7 @@ public class Main extends GraphicsProgram {
     /**
      * Número de soldats per exercit.
      */
-    private static final int SOLDATS_PER_EXERCIT = 20;
+    private static final int SOLDATS_PER_EXERCIT = 15;
 
     /**
      * Enter que indica els milisegons de pause entre el moviment dels exercits.
@@ -46,19 +46,9 @@ public class Main extends GraphicsProgram {
     private static final int TAMANY_Y = 400;
 
     /**
-     * Primer exercit de soldats.
-     */
-    private Exercit exercit1 = new Exercit(crearExercit("soldier1.png"), -1);
-
-    /**
-     * Segon exercit de soldats.
-     */
-    private Exercit exercit2 = new Exercit(crearExercit("soldier2.png"), 1);
-
-    /**
      * Creacio de l'objecte CampBatalla.
      */
-    private Campbatalla camp = new Campbatalla(TAMANY_X, TAMANY_Y);
+    private Campbatalla camp;
 
 
 
@@ -66,6 +56,8 @@ public class Main extends GraphicsProgram {
      * Mètode principal del programa.
      */
     public final void run() {
+
+        camp = new Campbatalla(TAMANY_X, TAMANY_Y);
 
         /**
          * Assignem un tamany a la finestra.
@@ -75,8 +67,8 @@ public class Main extends GraphicsProgram {
         /**
          * Afegim els exercits al camp.
          */
-        camp.afegirExercit(exercit1);
-        camp.afegirExercit(exercit2);
+        camp.afegirExercit(new Exercit(crearExercit("soldier1.png"), -1));
+        camp.afegirExercit(new Exercit(crearExercit("soldier2.png"), 1));
 
         /**
          * Posicionem els exercits que hi ha al camp de batalla.
@@ -134,11 +126,11 @@ public class Main extends GraphicsProgram {
                     exercit.moureExercit(this);
 
                 }
-
+                this.pause(VALOR_PAUSE);
                 exercit.comprovaMorts(camp.getExercits()
                         .get(cercaExercitOponent(i)).getSoldats());
             }
-            this.pause(VALOR_PAUSE);
+
 
             hanArribat = camp.getExercits().get(0).hanArribatAlFinal()
                     && camp.getExercits().get(1).hanArribatAlFinal();
@@ -177,7 +169,7 @@ public class Main extends GraphicsProgram {
     final void formarExercits(final Campbatalla campBatlla) {
         for (int i = 0; i < campBatlla.getExercits().size(); i++) {
             Exercit exercit = campBatlla.getExercits().get(i);
-            exercit.Formar(campBatlla);
+            exercit.formar(campBatlla);
         }
     }
 

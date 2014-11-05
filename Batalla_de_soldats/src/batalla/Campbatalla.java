@@ -54,13 +54,6 @@ public class Campbatalla {
     }
 
 
-    /**
-     * Constructor per defecte per objectes de tipus "Campbatalla".
-     */
-    public Campbatalla(){
-
-    }
-
 
 
 

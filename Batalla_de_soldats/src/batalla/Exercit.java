@@ -14,6 +14,11 @@ import acm.graphics.GImage;
 public class Exercit {
 
     /**
+     * Tamany màxim del camp.
+     */
+    private static final int TAMANYMAXIM = 800;
+
+    /**
      * ArrayList amb els soldats que componen un exercit.
      */
     private List<Soldat> soldats;
@@ -27,7 +32,7 @@ public class Exercit {
     /**
      * Creació de l'objecte camp.
      */
-    private Campbatalla camp = new Campbatalla();
+
 
 
 
@@ -65,7 +70,7 @@ public class Exercit {
             }
 
         }
-        if (pos1 == camp.getCampx() && pos2 == 0) {
+        if (pos1 == TAMANYMAXIM && pos2 == 0) {
             for (int i = 0; i < this.soldats.size(); i++) {
                 soldats.get(i)
                         .getImatge()
@@ -83,11 +88,9 @@ public class Exercit {
      * @param campB
      *            --> Camp de batalla on s'ha de formar l'exercit.
      */
+    final void formar(final Campbatalla campB) {
 
-    public void Formar(Campbatalla camp) {
-
-        int numFiles = camp.obtenirFiles();
-
+        int numFiles = campB.obtenirFiles();
         double alcadaSoldat = soldats.get(0).getImatge().getHeight();
         double ampladaSoldat = soldats.get(0).getImatge().getHeight();
         int indexFila = 0;
