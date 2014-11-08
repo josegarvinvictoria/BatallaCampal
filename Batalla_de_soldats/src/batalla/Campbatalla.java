@@ -73,7 +73,7 @@ public class Campbatalla {
      * @return --> Retorna el numero de files a partir de l'alçada d'un soldat.
      */
     final int obtenirFiles() {
-        List<Soldat> soldats = exercits.get(0).getSoldats();
+        List<SoldatGeneral> soldats = exercits.get(0).getSoldats();
         double heightSoldat = soldats.get(0).getImatge().getHeight();
         double numFiles = getCampy() / heightSoldat;
         int numFilesInt = (int) numFiles;

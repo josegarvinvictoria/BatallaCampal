@@ -2,6 +2,7 @@ package batalla;
 
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.List;
 
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
@@ -49,8 +50,6 @@ public class Main extends GraphicsProgram {
      * Creacio de l'objecte CampBatalla.
      */
     private Campbatalla camp;
-
-
 
     /**
      * Mètode principal del programa.
@@ -106,9 +105,6 @@ public class Main extends GraphicsProgram {
 
     }
 
-
-
-
     /**
      * Mètode per iniciar la batalla de soldats.
      */
@@ -130,7 +126,6 @@ public class Main extends GraphicsProgram {
                 exercit.comprovaMorts(camp.getExercits()
                         .get(cercaExercitOponent(i)).getSoldats());
             }
-
 
             hanArribat = camp.getExercits().get(0).hanArribatAlFinal()
                     && camp.getExercits().get(1).hanArribatAlFinal();
@@ -180,15 +175,24 @@ public class Main extends GraphicsProgram {
      *            --> Ruta a la imatge del soldat.
      * @return --> Retorna un arrayList de Soldats.
      */
-    final ArrayList<Soldat> crearExercit(final String rutaImatge) {
-        ArrayList<Soldat> exercit = new ArrayList<>();
+    final List<SoldatGeneral> crearExercit(final String rutaImatge) {
+        List<SoldatGeneral> exercit = new ArrayList<>();
+
+        SoldatGeneral soldatA = new SoldatArmilla(new GImage("soldier3.png"));
+        exercit.add(soldatA);
+
         for (int i = 0; i < SOLDATS_PER_EXERCIT; i++) {
-            Soldat soldat = new Soldat(new GImage(rutaImatge));
+            SoldatRas soldat = new SoldatRas(new GImage(rutaImatge));
             exercit.add(soldat);
 
             // Afegir soldats a la pisarra!
             add(soldat.getImatge());
         }
+        add(soldatA.getImatge());
+
+
+
+
         return exercit;
     }
 
@@ -211,8 +215,7 @@ public class Main extends GraphicsProgram {
      */
     final void controlInici() {
         GLabel glabel = new GLabel("Click per començar la batalla!");
-        glabel.setLocation(TAMANY_X / 2
-                - (glabel.getWidth() / 2), TAMANY_Y / 2);
+        glabel.setLocation(TAMANY_X / 2 - (glabel.getWidth() / 2), TAMANY_Y / 2);
         glabel.setFont(new Font("Liberation Serif", Font.ITALIC, T_FONT));
         add(glabel);
         waitForClick();

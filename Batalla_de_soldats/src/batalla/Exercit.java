@@ -11,7 +11,7 @@ import acm.graphics.GImage;
  * @author Jose Garvin Victoria
  *
  */
-public class Exercit {
+public class Exercit{
 
     /**
      * Tamany màxim del camp.
@@ -21,7 +21,7 @@ public class Exercit {
     /**
      * ArrayList amb els soldats que componen un exercit.
      */
-    private List<Soldat> soldats;
+    private List<SoldatGeneral> soldats;
 
     /**
      * Variable que emmagatzema la posicio de l'exercit. -1: L'exercit es
@@ -45,7 +45,7 @@ public class Exercit {
      * @param ubica
      *            --> Ubicació de l'exercit. 1:Dreta / -1Esquerra.
      */
-    public Exercit(final List<Soldat> exercit, final int ubica) {
+    public Exercit(final List<SoldatGeneral> exercit, final int ubica) {
         this.soldats = exercit;
         this.ubicacio = ubica;
 
@@ -188,7 +188,7 @@ public class Exercit {
      * @param atacats
      *            --> Exercit amb el soldats que són atacs.
      */
-    final void comprovaMorts(final List<Soldat> atacats) {
+    final void comprovaMorts(final List<SoldatGeneral> atacats) {
         int tamanyExercit = this.soldats.size();
 
         // Es recorren els exercits per cercar els morts.
@@ -197,16 +197,15 @@ public class Exercit {
             for (int j = tamanyExercit - 1; j >= 0; j--) {
 
                 // Si dos soldats d'exercits diferents toquen, i son de dal
-                // mateixa mila ha de morir.
-                if (atacats.get(i).soldatsToquen(this.soldats.get(j))) {
+                // mateixa fila ha de morir.
+                if (atacats.get(i).soldatToca(this.soldats.get(j))) {
 
-                    if (atacats.get(i).getImatge().getY() == this.soldats
-                            .get(j).getImatge().getY()) {
+
                         GImage imatge = atacats.get(i).getImatge();
                         imatge.getParent().remove(imatge);
                         atacats.remove(i);
                         // tamanyExercit--;
-                    }
+
                     break;
                     // this.soldats.remove(j);
 
@@ -233,7 +232,7 @@ public class Exercit {
      *
      * @return --> Retorna una llista de soldats.
      */
-    final List<Soldat> getSoldats() {
+    final List<SoldatGeneral> getSoldats() {
         return soldats;
     }
 
@@ -243,7 +242,7 @@ public class Exercit {
      * @param soldatsE
      *            --> Li passem una llista de soldats.
      */
-    final void setSoldats(final List<Soldat> soldatsE) {
+    final void setSoldats(final List<SoldatGeneral> soldatsE) {
         this.soldats = soldatsE;
     }
 
