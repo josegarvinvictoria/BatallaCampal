@@ -24,7 +24,7 @@ public class Main extends GraphicsProgram {
     /**
      * Número de soldats per exercit.
      */
-    private static final int SOLDATS_PER_EXERCIT = 15;
+    private static final int SOLDATS_PER_EXERCIT = 3;
 
     /**
      * Enter que indica els milisegons de pause entre el moviment dels exercits.
@@ -119,7 +119,7 @@ public class Main extends GraphicsProgram {
                 Exercit exercit = camp.getExercits().get(i);
                 if (exercit.getSoldats().size() != 0) {
 
-                    exercit.moureExercit(this);
+                    exercit.moureExercit(this, camp);
 
                 }
                 this.pause(VALOR_PAUSE);
@@ -178,9 +178,16 @@ public class Main extends GraphicsProgram {
     final List<SoldatGeneral> crearExercit(final String rutaImatge) {
         List<SoldatGeneral> exercit = new ArrayList<>();
 
-        SoldatGeneral soldatA = new SoldatArmilla(new GImage("soldier3.png"));
+        //SoldatGeneral soldatA = new SoldatArmilla(new GImage("soldier3.png"));
+
+
+
+
+        SoldatRei soldatA = new SoldatRei(new GImage("king.png"));
         exercit.add(soldatA);
 
+        SoldatArmilla soldatB = new SoldatArmilla(new GImage("soldier3.png"));
+        exercit.add(soldatB);
         for (int i = 0; i < SOLDATS_PER_EXERCIT; i++) {
             SoldatRas soldat = new SoldatRas(new GImage(rutaImatge));
             exercit.add(soldat);
@@ -189,7 +196,7 @@ public class Main extends GraphicsProgram {
             add(soldat.getImatge());
         }
         add(soldatA.getImatge());
-
+        add(soldatB.getImatge());
 
 
 

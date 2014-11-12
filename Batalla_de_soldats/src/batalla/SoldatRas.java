@@ -18,8 +18,8 @@ public class SoldatRas extends SoldatGeneral {
      */
     public SoldatRas(final GImage imatgeS) {
         super(imatgeS);
-        this.VELOCITATD = 7;
-        this.VELOCITATE = -7;
+        this.VELOCITATD = 13;
+        this.VELOCITATE = -13;
 
     }
 
@@ -35,15 +35,15 @@ public class SoldatRas extends SoldatGeneral {
      * @param camp
      *            --> Passem el camp on s'ha de moure el soldat.
      */
-    final void mouSoldat(final int ubicacio, final Main camp) {
+    final void mouSoldat(final int ubicacio, final Main camp, final Campbatalla campBatalla) {
 
-        double xActual = this.getImatge().getX();
+        double xActual = this.obtenirX();
         if (ubicacio == -1) {
             this.getImatge().move(VELOCITATD, 0);
             // this.getImatge().pause(5);
             // soldats.get(indexRandom).getImatge().pause(100);
 
-            if (xActual >= (camp.getWidth() - (this.getImatge().getWidth()))) {
+            if (xActual >= (camp.getWidth() - (this.obtenirWidth()))) {
                 this.setHaArribat(true);
             }
 
@@ -76,7 +76,7 @@ public class SoldatRas extends SoldatGeneral {
     boolean soldatToca(SoldatGeneral oponent) {
         boolean toca = this.getImatge().getBounds()
                 .intersects(oponent.getImatge().getBounds());
-        if(toca && this.getImatge().getY() == oponent.getImatge().getY()){
+        if(toca && this.obtenirY() == oponent.obtenirY()){
             return true;
         }
         return false;

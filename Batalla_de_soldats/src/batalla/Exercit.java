@@ -66,17 +66,14 @@ public class Exercit{
         if (pos1 == 0 && pos2 == 0) {
 
             for (int i = 0; i < this.soldats.size(); i++) {
-                soldats.get(i).getImatge().setLocation(pos1, pos2);
+                soldats.get(i).PosatA(pos1, pos2);
             }
 
         }
         if (pos1 == TAMANYMAXIM && pos2 == 0) {
             for (int i = 0; i < this.soldats.size(); i++) {
-                soldats.get(i)
-                        .getImatge()
-                        .setLocation(
-                                pos1 - (soldats.get(i).getImatge().getWidth()),
-                                0);
+                soldats.get(i).PosatA(pos1 - (soldats.get(i).obtenirWidth()), 0);
+
 
             }
         }
@@ -91,17 +88,17 @@ public class Exercit{
     final void formar(final Campbatalla campB) {
 
         int numFiles = campB.obtenirFiles();
-        double alcadaSoldat = soldats.get(0).getImatge().getHeight();
-        double ampladaSoldat = soldats.get(0).getImatge().getHeight();
+        double alcadaSoldat = soldats.get(0).obtenirHeight();
+        double ampladaSoldat = soldats.get(0).obtenirHeight();
         int indexFila = 0;
 
-        double xActual = soldats.get(0).getImatge().getX();
+        double xActual = soldats.get(0).obtenirX();
         double yActual = 0;
 
         for (int s = 0; s < soldats.size(); s++) {
             if (indexFila <= numFiles) {
 
-                soldats.get(s).getImatge().setLocation(xActual, yActual);
+                soldats.get(s).PosatA(xActual, yActual);
                 yActual += alcadaSoldat;
                 indexFila++;
                 if (indexFila == numFiles) {
@@ -116,6 +113,12 @@ public class Exercit{
                         // Si l'ubicació es igual a 1 els posicionem a la
                         // dreta.
                     } else if (ubicacio == 1) {
+
+                        //Si es un rei, voltejem la imatge.
+                        if(soldats.get(s) instanceof SoldatRei){
+                            FlipGImage voltejarImatge = new FlipGImage();
+                            soldats.get(s).setImatge(voltejarImatge.flipHorizontal(soldats.get(s).getImatge()));
+                        }
                         xActual -= ampladaSoldat;
                     }
 
@@ -129,17 +132,17 @@ public class Exercit{
     /**
      * Metode per moure els soldats de un exercit.
      *
-     * @param campB
+     * @param pissarra
      *            --> Camp on s'han de moure el soldats.
      */
-    final void moureExercit(final Main campB) {
+    final void moureExercit(final Main pissarra, final Campbatalla campbatalla) {
 
         Random r = new Random();
 
         int indexRandom = r.nextInt(soldats.size());
 
         if (!soldats.get(indexRandom).isHaArribat()) {
-            soldats.get(indexRandom).mouSoldat(ubicacio, campB);
+            soldats.get(indexRandom).mouSoldat(ubicacio, pissarra, campbatalla);
 
         }
 
@@ -201,6 +204,15 @@ public class Exercit{
                 if (atacats.get(i).soldatToca(this.soldats.get(j))) {
 
 
+
+                        //Si el soldat es un rei i el toquen, ha de morir!
+                        if(atacats.get(i) instanceof SoldatRei){
+                            SoldatGeneral rei = this.soldats.get(i);
+                            GImage imatgeRei = rei.getImatge();
+                            imatgeRei.getParent().remove(imatgeRei);
+                            this.soldats.remove(i);
+
+                        }
                         GImage imatge = atacats.get(i).getImatge();
                         imatge.getParent().remove(imatge);
                         atacats.remove(i);
@@ -223,6 +235,7 @@ public class Exercit{
             soldats.get(i).reinicialitzaSoldat();
         }
     }
+
 
 
 

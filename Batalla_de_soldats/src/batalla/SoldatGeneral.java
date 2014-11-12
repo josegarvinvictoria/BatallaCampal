@@ -27,13 +27,18 @@ public abstract class SoldatGeneral {
         this.imatge = imatgeS;
     }
 
+
     /**
      * Declaració dels mètodes.
      */
 
-    abstract void mouSoldat(int ubicacio, Main camp);
+    abstract void mouSoldat(int ubicacio, Main pissarra, Campbatalla campbatalla);
 
     abstract boolean soldatToca(final SoldatGeneral oponent);
+
+    void PosatA(double x, double y){
+        this.getImatge().setLocation(x, y);
+    }
     /**
      * Metode per reinicialitzar un soldat.
      */
@@ -44,6 +49,34 @@ public abstract class SoldatGeneral {
             this.haArribat = true;
         }
 
+    }
+
+    /**
+     * Mètode per obtenir l'alçada d'un soldat.
+     */
+    public double obtenirHeight(){
+        return this.getImatge().getHeight();
+    }
+
+    /**
+     * Mètode per obtenir l'amplada d'un soldat.
+     */
+    public double obtenirWidth(){
+        return this.getImatge().getWidth();
+    }
+
+    /**
+     * Mètode per obtenir la x actual del soldat.
+     */
+    public double obtenirX(){
+        return this.getImatge().getX();
+    }
+
+    /**
+     * Mètode per obtenir la y actual del soldat.
+     */
+    public double obtenirY(){
+        return this.getImatge().getY();
     }
 
     /**
@@ -99,6 +132,7 @@ public abstract class SoldatGeneral {
     public void setVELOCITATD(int vELOCITATD) {
         VELOCITATD = vELOCITATD;
     }
+
 
 
 }

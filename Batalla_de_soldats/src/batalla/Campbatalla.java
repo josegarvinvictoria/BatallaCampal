@@ -53,6 +53,10 @@ public class Campbatalla {
         this.campy = y;
     }
 
+    public Campbatalla() {
+
+    }
+
 
 
 
@@ -74,7 +78,7 @@ public class Campbatalla {
      */
     final int obtenirFiles() {
         List<SoldatGeneral> soldats = exercits.get(0).getSoldats();
-        double heightSoldat = soldats.get(0).getImatge().getHeight();
+        double heightSoldat = soldats.get(0).obtenirHeight();
         double numFiles = getCampy() / heightSoldat;
         int numFilesInt = (int) numFiles;
         return numFilesInt;
