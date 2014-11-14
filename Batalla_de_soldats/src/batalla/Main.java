@@ -62,7 +62,7 @@ public class Main extends GraphicsProgram {
          * Assignem un tamany a la finestra.
          */
         this.setSize(camp.getCampx(), camp.getCampy());
-        add(new GImage("body-background.png"));
+        //add(new GImage("body-background.png"));
         /**
          * Afegim els exercits al camp.
          */
@@ -194,11 +194,11 @@ public class Main extends GraphicsProgram {
             // Afegir soldats a la pisarra!
             add(soldat.getImatge());
         }
-       
+
        // add(soldatA.getImatge());
         add(soldatB.getImatge());
         add(soldatG.getImatge());
-        
+
         SoldatGegant soldatG2 = new SoldatGegant(new GImage("giant.png"));
         exercit.add(soldatG2);
         add(soldatG2.getImatge());
