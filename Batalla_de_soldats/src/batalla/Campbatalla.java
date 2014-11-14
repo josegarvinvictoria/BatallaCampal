@@ -85,6 +85,21 @@ public class Campbatalla {
     }
 
     /**
+     * Nou mètode per obtenir files!
+     */
+    final int obtenirFiles(List<SoldatGeneral> soldats){
+        int numFiles = 0;
+        for(int i = 0; i<soldats.size();i++){
+            if(soldats.get(i).obtenirHeight() == 72){
+                numFiles++;
+            }if(soldats.get(i).obtenirHeight() == 144){
+                numFiles = numFiles + 2;
+            }
+        }
+
+        return numFiles;
+    }
+    /**
      * Mètode per esbrinar si s'ha trobat un guanyador de la batalla.
      *
      * @return --> True: S'ha trobat un exercit campio / False: Encara no s'ha
@@ -107,6 +122,7 @@ public class Campbatalla {
     }
 
 
+    
 
     /**
      * Metode per obtenir el numero de files del camp de batalla.

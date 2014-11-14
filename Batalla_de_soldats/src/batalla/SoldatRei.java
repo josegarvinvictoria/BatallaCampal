@@ -51,9 +51,8 @@ public class SoldatRei extends SoldatGeneral {
 
     @Override
     boolean soldatToca(SoldatGeneral oponent) {
-        boolean toca = oponent.getImatge().getBounds()
-                .intersects(this.getImatge().getBounds());
-
+        boolean toca = this.getImatge().getBounds()
+                .intersects(oponent.getImatge().getBounds());
         if(toca && this.obtenirY() == oponent.obtenirY()){
             return true;
         }

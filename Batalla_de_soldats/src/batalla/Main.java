@@ -24,7 +24,7 @@ public class Main extends GraphicsProgram {
     /**
      * Número de soldats per exercit.
      */
-    private static final int SOLDATS_PER_EXERCIT = 3;
+    private static final int SOLDATS_PER_EXERCIT = 15;
 
     /**
      * Enter que indica els milisegons de pause entre el moviment dels exercits.
@@ -39,12 +39,12 @@ public class Main extends GraphicsProgram {
     /**
      * Tamany X de la finestra.
      */
-    private static final int TAMANY_X = 800;
+    private static final int TAMANY_X = 1200;
 
     /**
      * Tamany Y de la finestra.
      */
-    private static final int TAMANY_Y = 400;
+    private static final int TAMANY_Y = 600;
 
     /**
      * Creacio de l'objecte CampBatalla.
@@ -62,7 +62,7 @@ public class Main extends GraphicsProgram {
          * Assignem un tamany a la finestra.
          */
         this.setSize(camp.getCampx(), camp.getCampy());
-
+        add(new GImage("body-background.png"));
         /**
          * Afegim els exercits al camp.
          */
@@ -164,7 +164,7 @@ public class Main extends GraphicsProgram {
     final void formarExercits(final Campbatalla campBatlla) {
         for (int i = 0; i < campBatlla.getExercits().size(); i++) {
             Exercit exercit = campBatlla.getExercits().get(i);
-            exercit.formar(campBatlla);
+            exercit.Formar(campBatlla);
         }
     }
 
@@ -179,12 +179,11 @@ public class Main extends GraphicsProgram {
         List<SoldatGeneral> exercit = new ArrayList<>();
 
         //SoldatGeneral soldatA = new SoldatArmilla(new GImage("soldier3.png"));
+        SoldatGegant soldatG = new SoldatGegant(new GImage("giant.png"));
+        exercit.add(soldatG);
 
-
-
-
-        SoldatRei soldatA = new SoldatRei(new GImage("king.png"));
-        exercit.add(soldatA);
+       //SoldatRei soldatA = new SoldatRei(new GImage("king.png"));
+       // exercit.add(soldatA);
 
         SoldatArmilla soldatB = new SoldatArmilla(new GImage("soldier3.png"));
         exercit.add(soldatB);
@@ -195,8 +194,16 @@ public class Main extends GraphicsProgram {
             // Afegir soldats a la pisarra!
             add(soldat.getImatge());
         }
-        add(soldatA.getImatge());
+       
+       // add(soldatA.getImatge());
         add(soldatB.getImatge());
+        add(soldatG.getImatge());
+        
+        SoldatGegant soldatG2 = new SoldatGegant(new GImage("giant.png"));
+        exercit.add(soldatG2);
+        add(soldatG2.getImatge());
+
+
 
 
 

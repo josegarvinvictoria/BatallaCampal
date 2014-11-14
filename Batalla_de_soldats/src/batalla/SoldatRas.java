@@ -18,8 +18,8 @@ public class SoldatRas extends SoldatGeneral {
      */
     public SoldatRas(final GImage imatgeS) {
         super(imatgeS);
-        this.VELOCITATD = 13;
-        this.VELOCITATE = -13;
+        this.VELOCITATD = 7;
+        this.VELOCITATE = -7;
 
     }
 
