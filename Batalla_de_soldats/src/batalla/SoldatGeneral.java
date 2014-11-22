@@ -11,38 +11,102 @@ import acm.graphics.GImage;
 public abstract class SoldatGeneral {
 
     /**
-     * Declaració de variables.
+     * Velocitat del soldat quan mou cap a l'esquerra.
      */
-    int VELOCITATE;
-    int VELOCITATD;
-    GImage imatge;
-    boolean haArribat;
+    private int velocitatE;
 
     /**
-     * Constructor Soldats.
+     * Velocitat del soldat quan es mou cap a la dreta.
+     */
+    private int velocitatD;
+
+    /**
+     * Imatge del soldat.
+     */
+    private GImage imatge;
+
+    /**
+     * Boolean que ens indica true o false depenent de si el soldat ha arribat o
+     * no al final de la finestra.
+     */
+    private boolean haArribat;
+
+    /**
+     * Vides dels soldat.
+     */
+    private int vides;
+
+    /**
+     * Constructor d'objectes "SoldatGeneral".
      *
      * @param imatgeS
+     *            --> Imatge del soldat.
      */
-    public SoldatGeneral(GImage imatgeS) {
+    public SoldatGeneral(final GImage imatgeS) {
         this.imatge = imatgeS;
     }
 
+    /**
+     * Mètode abstracte per moure objectes de tipus "SoldatGeneral".
+     *
+     * @param ubicacio
+     *            --> Ubicació de l'exercit, -1 Esquerra/ 1 Dreta.
+     * @param main
+     *            --> Finestra on s'haura de moure l'objecte.
+     * @param camp
+     *            --> L'utilitzo per recollir les mesures del camp de batalla.
+     */
+    abstract void mouSoldat(final int ubicacio, final Main main,
+            final Campbatalla camp);
 
     /**
-     * Declaració dels mètodes.
+     * Mètode per determinar si un soldat té vides o no. Aquest mètode resta una
+     * vida al soldat cada cop que s'utiltiza.
+     *
+     * @return --> Retorna true quan el soldat té vides, o false, en el cas de
+     *         que el soldat s'hagi quedat sense vides.
      */
+    final boolean teVides() {
+        vides--;
+        if (vides == 0) {
+            return false;
+        }
+        return true;
+    }
 
-    abstract void mouSoldat(int ubicacio, Main pissarra, Campbatalla campbatalla);
+    /**
+     * Mètode per determinar si un soldat es toca amb una oponent.
+     *
+     * @param oponent
+     *            --> Soldat de l'exercit enemic.
+     * @return --> Retorna true si els soldats toquen
+     */
+    final boolean soldatToca(final SoldatGeneral oponent) {
+        boolean toca = this.getImatge().getBounds()
+                .intersects(oponent.getImatge().getBounds());
+        if (toca) {
+            return true;
+        }
+        return false;
+    }
 
-    abstract boolean soldatToca(final SoldatGeneral oponent);
-
-    void PosatA(double x, double y){
+    /**
+     * Mètode per posicionar la imatge d'un soldat al camp de batalla.
+     *
+     * @param x
+     *            --> Posicio X.
+     * @param y
+     *            --> Posicio Y.
+     */
+    final void posatA(final double x, final double y) {
         this.getImatge().setLocation(x, y);
     }
+
     /**
-     * Metode per reinicialitzar un soldat.
+     * Mètode per canviar la propietat haArribat dels soldats en el moment que
+     * arriben al seu destí.
      */
-    void reinicialitzaSoldat() {
+    final void reinicialitzaSoldat() {
         if (this.haArribat) {
             this.haArribat = false;
         } else {
@@ -51,10 +115,10 @@ public abstract class SoldatGeneral {
 
     }
 
-    /*
-     * Mètode per voltejar la imatge.
+    /**
+     * Mètode per invertir l'imatge d'un soldat.
      */
-    void flipHorizontal() {
+    final void flipHorizontal() {
         int[][] array = imatge.getPixelArray();
         int height = array.length;
         int width = array[0].length;
@@ -72,38 +136,50 @@ public abstract class SoldatGeneral {
 
     /**
      * Mètode per obtenir l'alçada d'un soldat.
+     *
+     * @return --> Retorna un double corresponent a l'alçada de l'imatge del
+     *         soldat.
      */
-    public double obtenirHeight(){
+    final double obtenirHeight() {
         return this.getImatge().getHeight();
     }
 
     /**
      * Mètode per obtenir l'amplada d'un soldat.
+     *
+     * @return --> Retorna un double corresponent a l'alçada de l'imatge del
+     *         soldat.
      */
-    public double obtenirWidth(){
+    final double obtenirWidth() {
         return this.getImatge().getWidth();
     }
 
     /**
-     * Mètode per obtenir la x actual del soldat.
+     * Mètode per obtenir el valor de la coordenada X d'un soldat.
+     *
+     * @return --> Retorna un double corresponent a la coordenada X de l'imatge
+     *         d'un soldat.
      */
-    public double obtenirX(){
+    final double obtenirX() {
         return this.getImatge().getX();
     }
 
     /**
-     * Mètode per obtenir la y actual del soldat.
+     * Mètode per obtenir el valor de la coordenada Y d'un soldat.
+     *
+     * @return --> Retorna un double corresponent a la coordenada Y de l'imatge
+     *         d'un soldat.
      */
-    public double obtenirY(){
+    final double obtenirY() {
         return this.getImatge().getY();
     }
 
     /**
-     * Mètode per obtenir la imatge de un soldat.
+     * Mètode per obtenir l'imatge d'un soldat.
      *
-     * @return --> Retorna una imatge de tipus "GImage".
+     * @return --> Retorna la imatge del soldat en tipus "GImage".
      */
-    GImage getImatge() {
+    final GImage getImatge() {
         return imatge;
     }
 
@@ -118,12 +194,23 @@ public abstract class SoldatGeneral {
     }
 
     /**
-     * Mètode per controlar si un soldat ha arribat al final del trajecte.
+     * Mètode per accedit a la propietat haArribat del soldat.
      *
      * @return --> Retorna True si ha arribat / False si no ha arribat.
      */
     final boolean isHaArribat() {
         return haArribat;
+    }
+
+    /**
+     * Mètode per obtenir la posició Y de la imatge de un soldat, però per la
+     * part d'abaix.
+     *
+     * @return --> Retorna un double corresponent al valor Y de la part inferior
+     *         de l'imatge.
+     */
+    final double posicioBaix() {
+        return this.obtenirY() + this.obtenirHeight();
     }
 
     /**
@@ -136,22 +223,52 @@ public abstract class SoldatGeneral {
         this.haArribat = haArribatAlDesti;
     }
 
-    public int getVELOCITATE() {
-        return VELOCITATE;
+    /**
+     * Mètode per obtenir el valor de la propietat VelocitatE.
+     * @return --> Retorna un int corresponent a la velocitat.
+     */
+    final int getVelocitatE() {
+        return velocitatE;
     }
 
-    public void setVELOCITATE(int vELOCITATE) {
-        VELOCITATE = vELOCITATE;
+    /**
+     * Mètode per assignar el valor de la propietat VelocitatE.
+     * @param veloE --> Velocitat a assignar.
+     */
+    final void setVelocitatE(final int veloE) {
+        this.velocitatE = veloE;
     }
 
-    public int getVELOCITATD() {
-        return VELOCITATD;
+    /**
+     * Mètode per obtenir el valor de la propietat VelocitatD.
+     * @return --> Retorna un int corresponent a la velocitat.
+     */
+    final int getVelocitatD() {
+        return velocitatD;
     }
 
-    public void setVELOCITATD(int vELOCITATD) {
-        VELOCITATD = vELOCITATD;
+    /**
+     * Mètode per assignar el valor de la propietat VelocitatD.
+     * @param veloD --> Velocitat a assignar.
+     */
+    final void setVelocitatD(final int veloD) {
+        this.velocitatD = veloD;
     }
 
+    /**
+     * Mètode per accedir al valor de la propietat vides.
+     * @return --> Retorna el numero de vides d'un soldat.
+     */
+    final int getVides() {
+        return vides;
+    }
 
+    /**
+     * Mètode per assignar el valor de la propietat vides.
+     * @param videsS --> Numero de vides a assignar.
+     */
+    final void setVides(final int videsS) {
+        this.vides = videsS;
+    }
 
 }

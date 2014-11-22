@@ -2,39 +2,64 @@ package batalla;
 
 import acm.graphics.GImage;
 
-public class SoldatArmilla extends SoldatGeneral{
+/**
+ * Classe per crear objectes de tipus "SoldatArmilla". Aquest tipus de soldat té
+ * vides i tarda una mica més en morir, a més es mou una mica més ràpid.
+ *
+ * @author Jose Garvin Victoria
+ *
+ */
+public class SoldatArmilla extends SoldatGeneral {
 
-GImage imatgeS = new GImage("soldier3.png");
-int vides = 5;
-    public SoldatArmilla(GImage imatgeA) {
+    /**
+     * Velocitat dels soldats que es mouen cap a l'equerra.
+     */
+    private static final int VELOCITATE_SOLDAT = -10;
+
+    /**
+     * Velocitat dels soldats que es mouen cap a la dreta.
+     */
+    private static final int VELOCITATD_SOLDAT = 10;
+
+    /**
+     * Número de vides del soldat.
+     */
+    private static final int NUMVIDES = 5;
+
+    /**
+     * Imatge del soldat.
+     */
+    private GImage imatgeS = new GImage("soldier3.png");
+
+    /**
+     * Constructor per a objectes de tipus "SoldatArmilla".
+     * @param imatgeA --> Imatge del soldat.
+     */
+    public SoldatArmilla(final GImage imatgeA) {
         super(imatgeA);
-        super.setImatge(imatgeS);
-        super.setVELOCITATD(10);
-        super.setVELOCITATE(-10);
-
-
-
-
+        this.setVelocitatD(VELOCITATD_SOLDAT);
+        this.setVelocitatE(VELOCITATE_SOLDAT);
+        this.setVides(NUMVIDES);
 
     }
 
     @Override
-    void mouSoldat(int ubicacio, Main camp, Campbatalla campBatalla) {
+    final void mouSoldat(final int ubicacio, final Main camp,
+            final Campbatalla campBatalla) {
         // TODO Auto-generated method stub
-        System.out.println("Numero de vides: " + this.vides);
+
         double xActual = this.getImatge().getX();
         if (ubicacio == -1) {
-            this.getImatge().move(VELOCITATD, 0);
-            // this.getImatge().pause(5);
-            // soldats.get(indexRandom).getImatge().pause(100);
+            this.getImatge().move(getVelocitatD(), 0);
+
 
             if (xActual >= (camp.getWidth() - (this.obtenirWidth()))) {
                 this.setHaArribat(true);
             }
 
         } else {
-            imatge.move(VELOCITATE, 0);
-            getImatge().move(VELOCITATE, 0);
+            //imatge.move(velocitatE, 0);
+            getImatge().move(getVelocitatE(), 0);
             // this.getImatge().pause(5);
 
             if (xActual <= 0) {
@@ -44,34 +69,5 @@ int vides = 5;
         }
 
     }
-
-    @Override
-    boolean soldatToca(SoldatGeneral oponent) {
-
-        boolean toca = this.getImatge().getBounds()
-                .intersects(oponent.getImatge().getBounds());
-
-
-
-
-        if(toca && (this.obtenirY() == oponent.obtenirY()) && calculVides()){
-            System.out.println("true");
-            return true;
-        }
-        return false;
-    }
-
-
-    boolean calculVides(){
-        this.vides--;
-
-        if(this.vides < 0){
-
-            return true;
-        }
-        return false;
-    }
-
-
 
 }

@@ -18,14 +18,11 @@ public class SoldatRas extends SoldatGeneral {
      */
     public SoldatRas(final GImage imatgeS) {
         super(imatgeS);
-        this.VELOCITATD = 7;
-        this.VELOCITATE = -7;
+        this.setVelocitatE(-7);
+        this.setVelocitatD(7);
+        this.setVides(1);
 
     }
-
-
-
-
 
     /**
      * Mètode per moure un soldat.
@@ -35,21 +32,19 @@ public class SoldatRas extends SoldatGeneral {
      * @param camp
      *            --> Passem el camp on s'ha de moure el soldat.
      */
-    final void mouSoldat(final int ubicacio, final Main camp, final Campbatalla campBatalla) {
+    final void mouSoldat(final int ubicacio, final Main camp,
+            final Campbatalla campBatalla) {
 
         double xActual = this.obtenirX();
         if (ubicacio == -1) {
-            this.getImatge().move(VELOCITATD, 0);
-            // this.getImatge().pause(5);
-            // soldats.get(indexRandom).getImatge().pause(100);
+            this.getImatge().move(getVelocitatD(), 0);
 
             if (xActual >= (camp.getWidth() - (this.obtenirWidth()))) {
                 this.setHaArribat(true);
             }
 
         } else {
-            this.getImatge().move(VELOCITATE, 0);
-            // this.getImatge().pause(5);
+            this.getImatge().move(getVelocitatE(), 0);
 
             if (xActual <= 0) {
 
@@ -58,32 +53,6 @@ public class SoldatRas extends SoldatGeneral {
         }
 
     }
-
-    /**
-     * Mètode per determinar si un soldat toca amb un oponent.
-     *
-     * @param oponent
-     *            --> Soldat oponent de l'exercit contrari.
-     * @return --> Retorna true/false depenent de si es toquen o no.
-     */
-
-
-
-
-
-
-    @Override
-    boolean soldatToca(SoldatGeneral oponent) {
-        boolean toca = this.getImatge().getBounds()
-                .intersects(oponent.getImatge().getBounds());
-        if(toca && this.obtenirY() == oponent.obtenirY()){
-            return true;
-        }
-        return false;
-    }
-
-
-
 
 
 

@@ -2,13 +2,17 @@ package batalla;
 
 import acm.graphics.GImage;
 
+
 public class SoldatGegant extends SoldatGeneral{
 
 
     public SoldatGegant(GImage imatgeS) {
         super(imatgeS);
-        super.setVELOCITATD(5);
-        super.setVELOCITATE(-5);
+        this.setVelocitatD(15);;
+        this.setVelocitatE(-15);
+        this.setVides(5);
+
+
         // TODO Auto-generated constructor stub
     }
 
@@ -18,7 +22,7 @@ public class SoldatGegant extends SoldatGeneral{
 
          double xActual = this.obtenirX();
          if (ubicacio == -1) {
-             this.getImatge().move(VELOCITATD, 0);
+             this.getImatge().move(getVelocitatD(), 0);
              // this.getImatge().pause(5);
              // soldats.get(indexRandom).getImatge().pause(100);
 
@@ -27,7 +31,7 @@ public class SoldatGegant extends SoldatGeneral{
              }
 
          } else {
-             this.getImatge().move(VELOCITATE, 0);
+             this.getImatge().move(getVelocitatE(), 0);
              // this.getImatge().pause(5);
 
              if (xActual <= 0) {
@@ -37,15 +41,9 @@ public class SoldatGegant extends SoldatGeneral{
          }
     }
 
-    @Override
-    boolean soldatToca(SoldatGeneral oponent) {
-        boolean toca = this.getImatge().getBounds()
-                .intersects(oponent.getImatge().getBounds());
-        if(toca && this.obtenirY() == oponent.obtenirY()){
-            return true;
-        }
-        return false;
-    }
+
+
+
 
 
 

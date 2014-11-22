@@ -24,12 +24,12 @@ public class Main extends GraphicsProgram {
     /**
      * Número de soldats per exercit.
      */
-    private static final int SOLDATS_PER_EXERCIT = 15;
+    private static final int SOLDATS_PER_EXERCIT = 20;
 
     /**
      * Enter que indica els milisegons de pause entre el moviment dels exercits.
      */
-    private static final int VALOR_PAUSE = 20;
+    private static final int VALOR_PAUSE = 5;
 
     /**
      * SerialVersionUID.
@@ -49,20 +49,18 @@ public class Main extends GraphicsProgram {
     /**
      * Creacio de l'objecte CampBatalla.
      */
-    private Campbatalla camp;
+    private Campbatalla camp = new Campbatalla(TAMANY_X, TAMANY_Y);
 
     /**
      * Mètode principal del programa.
      */
     public final void run() {
 
-        camp = new Campbatalla(TAMANY_X, TAMANY_Y);
-
         /**
          * Assignem un tamany a la finestra.
          */
         this.setSize(camp.getCampx(), camp.getCampy());
-        //add(new GImage("body-background.png"));
+        // add(new GImage("body-background.png"));
         /**
          * Afegim els exercits al camp.
          */
@@ -89,7 +87,7 @@ public class Main extends GraphicsProgram {
          * Fem que els exercits es formin.
          */
         formarExercits(camp);
-
+        orientarImatges();
         /**
          * Iniciem la batalla!
          */
@@ -135,6 +133,24 @@ public class Main extends GraphicsProgram {
         if (!camp.guanyadorTrobat()) {
             reinicialitzarExercits();
             formarExercits(camp);
+
+        }
+    }
+
+    public void orientarImatges() {
+        List<Exercit> exercits = camp.getExercits();
+        for (int i = 0; i < exercits.size(); i++) {
+
+            List<SoldatGeneral> soldats = exercits.get(i).getSoldats();
+            for (int s = 0; s < soldats.size(); s++) {
+                if (exercits.get(i).getUbicacio() == -1) {
+                    if(soldats.get(s) instanceof SoldatGegant){
+                        soldats.get(s).flipHorizontal();
+                    }
+                }else{
+
+                }
+            }
         }
     }
 
@@ -178,12 +194,13 @@ public class Main extends GraphicsProgram {
     final List<SoldatGeneral> crearExercit(final String rutaImatge) {
         List<SoldatGeneral> exercit = new ArrayList<>();
 
-        //SoldatGeneral soldatA = new SoldatArmilla(new GImage("soldier3.png"));
-        SoldatGegant soldatG = new SoldatGegant(new GImage("giant.png"));
-        exercit.add(soldatG);
+        // SoldatGeneral soldatA = new SoldatArmilla(new
+        // GImage("soldier3.png"));
+        // SoldatGegant soldatG = new SoldatGegant(new GImage("giant.png"));
+        // exercit.add(soldatG);
 
-       //SoldatRei soldatA = new SoldatRei(new GImage("king.png"));
-       // exercit.add(soldatA);
+         //SoldatRei soldatA = new SoldatRei(new GImage("king.png"));
+         //exercit.add(soldatA);
 
         SoldatArmilla soldatB = new SoldatArmilla(new GImage("soldier3.png"));
         exercit.add(soldatB);
@@ -193,19 +210,18 @@ public class Main extends GraphicsProgram {
 
             // Afegir soldats a la pisarra!
             add(soldat.getImatge());
+
+            if (i < 3) {
+                SoldatGegant soldatG2 = new SoldatGegant(
+                        new GImage("giant.png"));
+                exercit.add(soldatG2);
+                add(soldatG2.getImatge());
+            }
         }
 
-       // add(soldatA.getImatge());
+        // add(soldatA.getImatge());
         add(soldatB.getImatge());
-        add(soldatG.getImatge());
-
-        SoldatGegant soldatG2 = new SoldatGegant(new GImage("giant.png"));
-        exercit.add(soldatG2);
-        add(soldatG2.getImatge());
-
-
-
-
+        // add(soldatG.getImatge());
 
         return exercit;
     }
@@ -220,6 +236,8 @@ public class Main extends GraphicsProgram {
                     .canviaUbicacio(camp.getExercits().get(i).getUbicacio());
             // Canvi de haArribat a false.
             camp.getExercits().get(i).reinicialitzaExercit();
+            orientarImatges();
+
 
         }
     }
