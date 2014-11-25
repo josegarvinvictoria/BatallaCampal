@@ -3,7 +3,7 @@ package batalla;
 import acm.graphics.GImage;
 
 /**
- * Classe per crear objectes de tipus "Soldat".
+ * Classe per crear objectes de tipus "SoldatRas".
  *
  * @author Jose Garvin Victoria
  *
@@ -11,16 +11,31 @@ import acm.graphics.GImage;
 public class SoldatRas extends SoldatGeneral {
 
     /**
-     * Constructor per crear objectes de tipus "Soldat".
+     * Número de vides del soldat.
+     */
+    private static final int VIDES = 5;
+
+    /**
+     * Velocitat del soldat quan es mou cap a la dreta.
+     */
+    private static final int VELOCITATD = 7;
+
+    /**
+     * Velocitat del soldat quan es mou cap a l'esquerra.
+     */
+    private static final int VELOCITATE = -7;
+
+    /**
+     * Constructor per crear objectes de tipus "SoldatRas".
      *
      * @param imatgeS
      *            --> Imatge o aspecte del soldat.
      */
     public SoldatRas(final GImage imatgeS) {
         super(imatgeS);
-        this.setVelocitatE(-7);
-        this.setVelocitatD(7);
-        this.setVides(1);
+        this.setVelocitatE(VELOCITATE);
+        this.setVelocitatD(VELOCITATD);
+        this.setVides(VIDES);
 
     }
 
@@ -31,6 +46,8 @@ public class SoldatRas extends SoldatGeneral {
      *            --> Passem l'ubicacio de l'exercit.
      * @param camp
      *            --> Passem el camp on s'ha de moure el soldat.
+     * @param campBatalla
+     *            --> Passem el camp de batalla per obtenir les mides.
      */
     final void mouSoldat(final int ubicacio, final Main camp,
             final Campbatalla campBatalla) {
@@ -53,8 +70,5 @@ public class SoldatRas extends SoldatGeneral {
         }
 
     }
-
-
-
 
 }

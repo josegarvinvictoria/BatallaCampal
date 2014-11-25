@@ -2,46 +2,82 @@ package batalla;
 
 import acm.graphics.GImage;
 
+/**
+ * Classe per crear objectes de tipus "SoldatRei".
+ *
+ * @author Jose Garvin Victoria
+ *
+ */
 public class SoldatRei extends SoldatGeneral {
 
-    int indexFila = 1;
-    boolean haDePujar = false;
+    /**
+     * Temps de pausa del soldat cada cop que es mou.
+     */
+    private static final int TEMPS_PAUSA_REI = 80;
 
-    public SoldatRei(GImage imatgeS) {
+    /**
+     * Velocitat del soldat quan es mou cap a l'esquerra.
+     */
+    private static final int VELOCITATE = -5;
+
+    /**
+     * Velocitat del soldat quan es mou cap a la dreta.
+     */
+    private static final int VELOCITATD = 5;
+
+    /**
+     * Variable per controlar si un "SoldatRei" ha de baixar o pujar.
+     */
+    private boolean haDePujar = false;
+
+    /**
+     * Variable per contar les files.
+     */
+    private int contFila = 0;
+
+    /**
+     * Constructor per crear objectes de tipus "SoldatGegant".
+     *
+     * @param imatgeS
+     *            --> Imatge o aspecte del soldat.
+     */
+    public SoldatRei(final GImage imatgeS) {
         super(imatgeS);
-        this.setVelocitatD(5);
-        this.setVelocitatE(-5);
-        this.setVides(2);
+        this.setVelocitatD(VELOCITATD);
+        this.setVelocitatE(VELOCITATE);
+        this.setVides(1);
 
         // TODO Auto-generated constructor stub
     }
 
     @Override
-    void mouSoldat(int ubicacio, Main camp, Campbatalla campbatalla) {
+    final void mouSoldat(final int ubicacio, final Main camp,
+            final Campbatalla campbatalla) {
 
+        if (!haDePujar) {
 
-        if(ubicacio == -1){
-            if(this.obtenirX() != 0.0){
-            this.posatA(0, 0);}
-        }else{
-            if(this.obtenirX() != camp.getWidth() - this.obtenirWidth()){
-                this.posatA(camp.getWidth() - this.obtenirWidth(), 0);
+            if ((camp.getHeight() - (this.obtenirHeight() * 2)) >= this
+                    .obtenirY()) {
+                contFila++;
+                this.getImatge().move(0, this.obtenirHeight());
+            } else {
+                haDePujar = true;
             }
 
+        }
+
+        if (haDePujar) {
+            if (contFila > 0) {
+                contFila--;
+                this.getImatge().move(0, this.obtenirHeight() * (-1));
+            } else if (contFila == 0) {
+                haDePujar = false;
+            }
 
         }
 
-        if(this.obtenirY()< (campbatalla.getCampy() - this.obtenirY())){
-            this.getImatge().move(0, 72);
-
-        }else{
-            this.getImatge().move(0, -72);
-        }
+        camp.pause(TEMPS_PAUSA_REI);
 
     }
-
-
-
-
 
 }

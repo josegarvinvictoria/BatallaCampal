@@ -24,12 +24,8 @@ public class SoldatArmilla extends SoldatGeneral {
     /**
      * Número de vides del soldat.
      */
-    private static final int NUMVIDES = 5;
+    private static final int NUMVIDES = 10;
 
-    /**
-     * Imatge del soldat.
-     */
-    private GImage imatgeS = new GImage("soldier3.png");
 
     /**
      * Constructor per a objectes de tipus "SoldatArmilla".

@@ -17,14 +17,24 @@ import acm.program.GraphicsProgram;
 public class Main extends GraphicsProgram {
 
     /**
+     * Número de soldats de tipus "SoldatArmilla" per exercit.
+     */
+    private static final int NUM_SOLDATS_ARMILLA = 4;
+
+    /**
+     * Número de soldats de tipus "SoldatGegant" per exercit.
+     */
+    private static final int NUM_SOLDATS_GEGANTS = 3;
+
+    /**
      * Tamany de la font que s'utilitza en el metode del controlInici().
      */
     private static final int T_FONT = 15;
 
     /**
-     * Número de soldats per exercit.
+     * Número de soldats de tipus "SoldatRas" per exercit.
      */
-    private static final int SOLDATS_PER_EXERCIT = 20;
+    private static final int SOLDATS_RAS_PER_EXERCIT = 14;
 
     /**
      * Enter que indica els milisegons de pause entre el moviment dels exercits.
@@ -135,20 +145,27 @@ public class Main extends GraphicsProgram {
             formarExercits(camp);
 
         }
+
     }
 
-    public void orientarImatges() {
+    /**
+     * Mètode per voltejar imatges.
+     */
+    final void orientarImatges() {
         List<Exercit> exercits = camp.getExercits();
         for (int i = 0; i < exercits.size(); i++) {
 
             List<SoldatGeneral> soldats = exercits.get(i).getSoldats();
             for (int s = 0; s < soldats.size(); s++) {
                 if (exercits.get(i).getUbicacio() == -1) {
-                    if(soldats.get(s) instanceof SoldatGegant){
+                    if (soldats.get(s) instanceof SoldatGegant) {
                         soldats.get(s).flipHorizontal();
                     }
-                }else{
 
+                } else {
+                    if (soldats.get(s) instanceof SoldatRei) {
+                        soldats.get(s).flipHorizontal();
+                    }
                 }
             }
         }
@@ -180,48 +197,46 @@ public class Main extends GraphicsProgram {
     final void formarExercits(final Campbatalla campBatlla) {
         for (int i = 0; i < campBatlla.getExercits().size(); i++) {
             Exercit exercit = campBatlla.getExercits().get(i);
-            exercit.Formar(campBatlla);
+            exercit.formarExercits(campBatlla);
         }
     }
 
     /**
      * Mètode per crear exercits.
      *
-     * @param rutaImatge
-     *            --> Ruta a la imatge del soldat.
+     * @param imatgeSoldatRas
+     *            --> Ruta a la imatge del soldat ras.
      * @return --> Retorna un arrayList de Soldats.
      */
-    final List<SoldatGeneral> crearExercit(final String rutaImatge) {
+    final List<SoldatGeneral> crearExercit(final String imatgeSoldatRas) {
         List<SoldatGeneral> exercit = new ArrayList<>();
 
-        // SoldatGeneral soldatA = new SoldatArmilla(new
-        // GImage("soldier3.png"));
-        // SoldatGegant soldatG = new SoldatGegant(new GImage("giant.png"));
-        // exercit.add(soldatG);
+        // Creem el rei i l'afegim a l'array i a la pissara.
+        SoldatRei soldatA = new SoldatRei(new GImage("king.png"));
+        exercit.add(soldatA);
+        add(soldatA.getImatge());
 
-         //SoldatRei soldatA = new SoldatRei(new GImage("king.png"));
-         //exercit.add(soldatA);
-
-        SoldatArmilla soldatB = new SoldatArmilla(new GImage("soldier3.png"));
-        exercit.add(soldatB);
-        for (int i = 0; i < SOLDATS_PER_EXERCIT; i++) {
-            SoldatRas soldat = new SoldatRas(new GImage(rutaImatge));
+        for (int i = 0; i < SOLDATS_RAS_PER_EXERCIT; i++) {
+            SoldatRas soldat = new SoldatRas(new GImage(imatgeSoldatRas));
             exercit.add(soldat);
 
             // Afegir soldats a la pisarra!
             add(soldat.getImatge());
 
-            if (i < 3) {
-                SoldatGegant soldatG2 = new SoldatGegant(
-                        new GImage("giant.png"));
-                exercit.add(soldatG2);
-                add(soldatG2.getImatge());
+            if (i < NUM_SOLDATS_ARMILLA) {
+                SoldatArmilla soldatB = new SoldatArmilla(new GImage(
+                        "soldier3.png"));
+                exercit.add(soldatB);
+                add(soldatB.getImatge());
+            }
+
+            if (i < NUM_SOLDATS_GEGANTS) {
+                SoldatGegant soldatG = new SoldatGegant(new GImage(
+                        "giant.png"));
+                exercit.add(soldatG);
+                add(soldatG.getImatge());
             }
         }
-
-        // add(soldatA.getImatge());
-        add(soldatB.getImatge());
-        // add(soldatG.getImatge());
 
         return exercit;
     }
@@ -238,7 +253,6 @@ public class Main extends GraphicsProgram {
             camp.getExercits().get(i).reinicialitzaExercit();
             orientarImatges();
 
-
         }
     }
 
@@ -247,7 +261,8 @@ public class Main extends GraphicsProgram {
      */
     final void controlInici() {
         GLabel glabel = new GLabel("Click per començar la batalla!");
-        glabel.setLocation(TAMANY_X / 2 - (glabel.getWidth() / 2), TAMANY_Y / 2);
+        glabel.setLocation(TAMANY_X / 2 - (glabel.getWidth() / 2),
+                TAMANY_Y / 2);
         glabel.setFont(new Font("Liberation Serif", Font.ITALIC, T_FONT));
         add(glabel);
         waitForClick();

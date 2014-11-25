@@ -73,7 +73,17 @@ public class Exercit {
         }
     }
 
-    final int CalculaX(final Campbatalla campB, SoldatGeneral soldat) {
+    /**
+     * Mètode per calcular la posició X d'un soldat depenent de l'exercit al que
+     * pertany.
+     *
+     * @param campB
+     *            --> Camp de batalla.
+     * @param soldat
+     *            --> Objecte de tipus SoldatGeneral.
+     * @return --> Retorna un int corresponent a la X del soldat.
+     */
+    final int calculaX(final Campbatalla campB, final SoldatGeneral soldat) {
         if (this.ubicacio == -1) {
             return 0;
         } else {
@@ -82,9 +92,10 @@ public class Exercit {
     }
 
     /**
-     * Nou mètode per formar els exercits!
+     * Mètode per fer que els exercits es formin correctament.
+     * @param campB --> Camp de batalla.
      */
-    final void Formar(final Campbatalla campB) {
+    final void formarExercits(final Campbatalla campB) {
         // int numFiles = campB.obtenirFiles(soldats);
         ArrayList<Double> ySoldats = new ArrayList<>();
 
@@ -94,52 +105,54 @@ public class Exercit {
 
         for (int i = 0; i < soldats.size(); i++) {
 
-            /**
-             * Calculem la col.locacio de la y dels soldats i la dessem a un
-             * array.
-             */
-
             if (filaActual == 0) {
                 // Si l'array no te res afegim el valor.
                 ySoldats.add(0.0);
-                soldats.get(i).posatA(CalculaX(campB, soldats.get(i)),
+                soldats.get(i).posatA(calculaX(campB, soldats.get(i)),
                         ySoldats.get(filaActual));
                 filaActual++;
 
             } else {
 
                 if (soldats.get(i) instanceof SoldatGegant) {
-                    posY = soldats.get(i - 1).posicioBaix() + 1;
+                    posY = soldats.get(i - 1).posicioBaix() + 2;
                     if (posY > (campB.getCampy() - soldats.get(i)
                             .obtenirHeight())) {
                         posY = 0.0;
                     }
                     ySoldats.add(posY);
-                    soldats.get(i).posatA(CalculaX(campB, soldats.get(i)),
+                    soldats.get(i).posatA(calculaX(campB, soldats.get(i)),
                             ySoldats.get(i));
                     filaActual++;
 
                 } else {
 
-                    posY = soldats.get(i - 1).posicioBaix() + 1;
+                    posY = soldats.get(i - 1).posicioBaix() + 2;
                     if (posY > (campB.getCampy() - soldats.get(i)
                             .obtenirHeight())) {
                         posY = 0.0;
                     }
                     ySoldats.add(posY);
-                    soldats.get(i).posatA(CalculaX(campB, soldats.get(i)),
+                    soldats.get(i).posatA(calculaX(campB, soldats.get(i)),
                             ySoldats.get(i));
                     filaActual++;
                 }
 
             }
-            SepararseEntreAliats(i);
+
+            separarseEntreAliats(i);
         }
+        campB.setNumfiles(filaActual);
     }
 
-    public void SepararseEntreAliats(int ultimSoldatColocat) {
-
-
+    /**
+     * Mètode per fer que un soldat es separi dels seus companys en el cas de
+     * que es toquin.
+     *
+     * @param ultimSoldatColocat
+     *            --> Ultim soldat col.locat el qual mourem, si s'escau.
+     */
+    final void separarseEntreAliats(final int ultimSoldatColocat) {
 
         for (int i = 0; i < ultimSoldatColocat; i++) {
             while (soldats.get(ultimSoldatColocat).soldatToca(soldats.get(i))) {
@@ -206,15 +219,17 @@ public class Exercit {
      *
      * @param pissarra
      *            --> Camp on s'han de moure el soldats.
+     * @param campB
+     *            --> Classe camp per esbrinar les seves mides.
      */
-    final void moureExercit(final Main pissarra, final Campbatalla campbatalla) {
+    final void moureExercit(final Main pissarra, final Campbatalla campB) {
 
         Random r = new Random();
 
         int indexRandom = r.nextInt(soldats.size());
 
         if (!soldats.get(indexRandom).isHaArribat()) {
-            soldats.get(indexRandom).mouSoldat(ubicacio, pissarra, campbatalla);
+            soldats.get(indexRandom).mouSoldat(ubicacio, pissarra, campB);
 
         }
 
@@ -235,6 +250,11 @@ public class Exercit {
         }
 
         if (cont == soldats.size()) {
+//            for(int i = 0; i<soldats.size();i++){
+//                if(soldats.get(i) instanceof SoldatRei){
+//                    soldats.get(i).setHaArribat(true);
+//                }
+//            }
 
             return true;
         }
@@ -242,6 +262,9 @@ public class Exercit {
         return false;
 
     }
+
+
+
 
     /**
      * Mètode per canviar l'ubicacio de un exercit quan arriba al seu desti.
@@ -288,6 +311,7 @@ public class Exercit {
         }
 
     }
+
 
     /**
      * Mètode per reinicialitzar cadascun dels soldats d'un exercit.
